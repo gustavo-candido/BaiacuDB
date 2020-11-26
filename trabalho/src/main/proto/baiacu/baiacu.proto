@@ -1,0 +1,65 @@
+
+syntax = "proto3";
+package baiacu;
+option java_package = "com.proto.baiacu";
+option java_multiple_files = true;
+
+message KeyValue {
+  int64 version = 1;
+  int64 timestamp = 2;
+  bytes data = 3;   // o formato disso em java é ByteString
+}
+
+message storeRequest {
+  KeyValue keyValue = 1;
+}
+
+message storeResponse {
+  string status = 1;  // sucesso ou falha
+  KeyValue keyValue = 2; //NULL se a chave foi iserida
+}
+
+message showRequest {  // esse aqui é o get
+  KeyValue keyValue = 1;
+}
+
+message showResponse {
+  string status = 1;
+  KeyValue keyValue = 2; // só retorna se existir esse dado
+}
+
+message destroyRequest {
+  KeyValue keyValue = 1;
+}
+
+message destroyResponse {
+  string status = 1;  //
+  KeyValue keyValue = 2; // retorna a chave removida
+}
+
+message destroyByVersionRequest {
+  KeyValue keyValue = 1;
+}
+
+message destroyByVersionResponse {
+  string status = 1;  //
+  KeyValue keyValue = 2; // retorna a chave removida
+}
+
+message testAndSetRequest{
+  KeyValue keyValue = 1;
+
+}
+
+message testAndSetResponse{
+  string status = 1;
+  KeyValue keyValue = 2;
+}
+
+service BaiacuService {
+  rpc Store (storeRequest) returns (storeResponse) {}
+  rpc Show (showRequest) returns (showResponse) {}
+  rpc Destroy (destroyRequest) returns (destroyResponse) {}
+  rpc DestroyByVersion (destroyByVersionRequest) returns (destroyByVersionResponse) {}
+  rpc testAndSet (testAndSetRequest) returns (testAndSetResponse) {}
+}
