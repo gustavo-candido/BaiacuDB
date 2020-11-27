@@ -27,29 +27,29 @@ public final class BaiacuServiceGrpc {
   public static final String SERVICE_NAME = "baiacu.BaiacuService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.storeRequest,
-      com.proto.baiacu.storeResponse> getStoreMethod;
+  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.StoreRequest,
+      com.proto.baiacu.StoreResponse> getStoreMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Store",
-      requestType = com.proto.baiacu.storeRequest.class,
-      responseType = com.proto.baiacu.storeResponse.class,
+      requestType = com.proto.baiacu.StoreRequest.class,
+      responseType = com.proto.baiacu.StoreResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.proto.baiacu.storeRequest,
-      com.proto.baiacu.storeResponse> getStoreMethod() {
-    io.grpc.MethodDescriptor<com.proto.baiacu.storeRequest, com.proto.baiacu.storeResponse> getStoreMethod;
+  public static io.grpc.MethodDescriptor<com.proto.baiacu.StoreRequest,
+      com.proto.baiacu.StoreResponse> getStoreMethod() {
+    io.grpc.MethodDescriptor<com.proto.baiacu.StoreRequest, com.proto.baiacu.StoreResponse> getStoreMethod;
     if ((getStoreMethod = BaiacuServiceGrpc.getStoreMethod) == null) {
       synchronized (BaiacuServiceGrpc.class) {
         if ((getStoreMethod = BaiacuServiceGrpc.getStoreMethod) == null) {
           BaiacuServiceGrpc.getStoreMethod = getStoreMethod =
-              io.grpc.MethodDescriptor.<com.proto.baiacu.storeRequest, com.proto.baiacu.storeResponse>newBuilder()
+              io.grpc.MethodDescriptor.<com.proto.baiacu.StoreRequest, com.proto.baiacu.StoreResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Store"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.storeRequest.getDefaultInstance()))
+                  com.proto.baiacu.StoreRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.storeResponse.getDefaultInstance()))
+                  com.proto.baiacu.StoreResponse.getDefaultInstance()))
               .setSchemaDescriptor(new BaiacuServiceMethodDescriptorSupplier("Store"))
               .build();
         }
@@ -58,29 +58,29 @@ public final class BaiacuServiceGrpc {
     return getStoreMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.showRequest,
-      com.proto.baiacu.showResponse> getShowMethod;
+  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.ShowRequest,
+      com.proto.baiacu.ShowResponse> getShowMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Show",
-      requestType = com.proto.baiacu.showRequest.class,
-      responseType = com.proto.baiacu.showResponse.class,
+      requestType = com.proto.baiacu.ShowRequest.class,
+      responseType = com.proto.baiacu.ShowResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.proto.baiacu.showRequest,
-      com.proto.baiacu.showResponse> getShowMethod() {
-    io.grpc.MethodDescriptor<com.proto.baiacu.showRequest, com.proto.baiacu.showResponse> getShowMethod;
+  public static io.grpc.MethodDescriptor<com.proto.baiacu.ShowRequest,
+      com.proto.baiacu.ShowResponse> getShowMethod() {
+    io.grpc.MethodDescriptor<com.proto.baiacu.ShowRequest, com.proto.baiacu.ShowResponse> getShowMethod;
     if ((getShowMethod = BaiacuServiceGrpc.getShowMethod) == null) {
       synchronized (BaiacuServiceGrpc.class) {
         if ((getShowMethod = BaiacuServiceGrpc.getShowMethod) == null) {
           BaiacuServiceGrpc.getShowMethod = getShowMethod =
-              io.grpc.MethodDescriptor.<com.proto.baiacu.showRequest, com.proto.baiacu.showResponse>newBuilder()
+              io.grpc.MethodDescriptor.<com.proto.baiacu.ShowRequest, com.proto.baiacu.ShowResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Show"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.showRequest.getDefaultInstance()))
+                  com.proto.baiacu.ShowRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.showResponse.getDefaultInstance()))
+                  com.proto.baiacu.ShowResponse.getDefaultInstance()))
               .setSchemaDescriptor(new BaiacuServiceMethodDescriptorSupplier("Show"))
               .build();
         }
@@ -89,29 +89,29 @@ public final class BaiacuServiceGrpc {
     return getShowMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.destroyRequest,
-      com.proto.baiacu.destroyResponse> getDestroyMethod;
+  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.DestroyRequest,
+      com.proto.baiacu.DestroyResponse> getDestroyMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Destroy",
-      requestType = com.proto.baiacu.destroyRequest.class,
-      responseType = com.proto.baiacu.destroyResponse.class,
+      requestType = com.proto.baiacu.DestroyRequest.class,
+      responseType = com.proto.baiacu.DestroyResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.proto.baiacu.destroyRequest,
-      com.proto.baiacu.destroyResponse> getDestroyMethod() {
-    io.grpc.MethodDescriptor<com.proto.baiacu.destroyRequest, com.proto.baiacu.destroyResponse> getDestroyMethod;
+  public static io.grpc.MethodDescriptor<com.proto.baiacu.DestroyRequest,
+      com.proto.baiacu.DestroyResponse> getDestroyMethod() {
+    io.grpc.MethodDescriptor<com.proto.baiacu.DestroyRequest, com.proto.baiacu.DestroyResponse> getDestroyMethod;
     if ((getDestroyMethod = BaiacuServiceGrpc.getDestroyMethod) == null) {
       synchronized (BaiacuServiceGrpc.class) {
         if ((getDestroyMethod = BaiacuServiceGrpc.getDestroyMethod) == null) {
           BaiacuServiceGrpc.getDestroyMethod = getDestroyMethod =
-              io.grpc.MethodDescriptor.<com.proto.baiacu.destroyRequest, com.proto.baiacu.destroyResponse>newBuilder()
+              io.grpc.MethodDescriptor.<com.proto.baiacu.DestroyRequest, com.proto.baiacu.DestroyResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Destroy"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.destroyRequest.getDefaultInstance()))
+                  com.proto.baiacu.DestroyRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.destroyResponse.getDefaultInstance()))
+                  com.proto.baiacu.DestroyResponse.getDefaultInstance()))
               .setSchemaDescriptor(new BaiacuServiceMethodDescriptorSupplier("Destroy"))
               .build();
         }
@@ -120,29 +120,29 @@ public final class BaiacuServiceGrpc {
     return getDestroyMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.destroyByVersionRequest,
-      com.proto.baiacu.destroyByVersionResponse> getDestroyByVersionMethod;
+  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.DestroyByVersionRequest,
+      com.proto.baiacu.DestroyByVersionResponse> getDestroyByVersionMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "DestroyByVersion",
-      requestType = com.proto.baiacu.destroyByVersionRequest.class,
-      responseType = com.proto.baiacu.destroyByVersionResponse.class,
+      requestType = com.proto.baiacu.DestroyByVersionRequest.class,
+      responseType = com.proto.baiacu.DestroyByVersionResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.proto.baiacu.destroyByVersionRequest,
-      com.proto.baiacu.destroyByVersionResponse> getDestroyByVersionMethod() {
-    io.grpc.MethodDescriptor<com.proto.baiacu.destroyByVersionRequest, com.proto.baiacu.destroyByVersionResponse> getDestroyByVersionMethod;
+  public static io.grpc.MethodDescriptor<com.proto.baiacu.DestroyByVersionRequest,
+      com.proto.baiacu.DestroyByVersionResponse> getDestroyByVersionMethod() {
+    io.grpc.MethodDescriptor<com.proto.baiacu.DestroyByVersionRequest, com.proto.baiacu.DestroyByVersionResponse> getDestroyByVersionMethod;
     if ((getDestroyByVersionMethod = BaiacuServiceGrpc.getDestroyByVersionMethod) == null) {
       synchronized (BaiacuServiceGrpc.class) {
         if ((getDestroyByVersionMethod = BaiacuServiceGrpc.getDestroyByVersionMethod) == null) {
           BaiacuServiceGrpc.getDestroyByVersionMethod = getDestroyByVersionMethod =
-              io.grpc.MethodDescriptor.<com.proto.baiacu.destroyByVersionRequest, com.proto.baiacu.destroyByVersionResponse>newBuilder()
+              io.grpc.MethodDescriptor.<com.proto.baiacu.DestroyByVersionRequest, com.proto.baiacu.DestroyByVersionResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DestroyByVersion"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.destroyByVersionRequest.getDefaultInstance()))
+                  com.proto.baiacu.DestroyByVersionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.destroyByVersionResponse.getDefaultInstance()))
+                  com.proto.baiacu.DestroyByVersionResponse.getDefaultInstance()))
               .setSchemaDescriptor(new BaiacuServiceMethodDescriptorSupplier("DestroyByVersion"))
               .build();
         }
@@ -151,29 +151,29 @@ public final class BaiacuServiceGrpc {
     return getDestroyByVersionMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.testAndSetRequest,
-      com.proto.baiacu.testAndSetResponse> getTestAndSetMethod;
+  private static volatile io.grpc.MethodDescriptor<com.proto.baiacu.TestAndSetRequest,
+      com.proto.baiacu.TestAndSetResponse> getTestAndSetMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "testAndSet",
-      requestType = com.proto.baiacu.testAndSetRequest.class,
-      responseType = com.proto.baiacu.testAndSetResponse.class,
+      requestType = com.proto.baiacu.TestAndSetRequest.class,
+      responseType = com.proto.baiacu.TestAndSetResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.proto.baiacu.testAndSetRequest,
-      com.proto.baiacu.testAndSetResponse> getTestAndSetMethod() {
-    io.grpc.MethodDescriptor<com.proto.baiacu.testAndSetRequest, com.proto.baiacu.testAndSetResponse> getTestAndSetMethod;
+  public static io.grpc.MethodDescriptor<com.proto.baiacu.TestAndSetRequest,
+      com.proto.baiacu.TestAndSetResponse> getTestAndSetMethod() {
+    io.grpc.MethodDescriptor<com.proto.baiacu.TestAndSetRequest, com.proto.baiacu.TestAndSetResponse> getTestAndSetMethod;
     if ((getTestAndSetMethod = BaiacuServiceGrpc.getTestAndSetMethod) == null) {
       synchronized (BaiacuServiceGrpc.class) {
         if ((getTestAndSetMethod = BaiacuServiceGrpc.getTestAndSetMethod) == null) {
           BaiacuServiceGrpc.getTestAndSetMethod = getTestAndSetMethod =
-              io.grpc.MethodDescriptor.<com.proto.baiacu.testAndSetRequest, com.proto.baiacu.testAndSetResponse>newBuilder()
+              io.grpc.MethodDescriptor.<com.proto.baiacu.TestAndSetRequest, com.proto.baiacu.TestAndSetResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "testAndSet"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.testAndSetRequest.getDefaultInstance()))
+                  com.proto.baiacu.TestAndSetRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.proto.baiacu.testAndSetResponse.getDefaultInstance()))
+                  com.proto.baiacu.TestAndSetResponse.getDefaultInstance()))
               .setSchemaDescriptor(new BaiacuServiceMethodDescriptorSupplier("testAndSet"))
               .build();
         }
@@ -232,36 +232,36 @@ public final class BaiacuServiceGrpc {
 
     /**
      */
-    public void store(com.proto.baiacu.storeRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.storeResponse> responseObserver) {
+    public void store(com.proto.baiacu.StoreRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.StoreResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getStoreMethod(), responseObserver);
     }
 
     /**
      */
-    public void show(com.proto.baiacu.showRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.showResponse> responseObserver) {
+    public void show(com.proto.baiacu.ShowRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.ShowResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getShowMethod(), responseObserver);
     }
 
     /**
      */
-    public void destroy(com.proto.baiacu.destroyRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.destroyResponse> responseObserver) {
+    public void destroy(com.proto.baiacu.DestroyRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.DestroyResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getDestroyMethod(), responseObserver);
     }
 
     /**
      */
-    public void destroyByVersion(com.proto.baiacu.destroyByVersionRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.destroyByVersionResponse> responseObserver) {
+    public void destroyByVersion(com.proto.baiacu.DestroyByVersionRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.DestroyByVersionResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getDestroyByVersionMethod(), responseObserver);
     }
 
     /**
      */
-    public void testAndSet(com.proto.baiacu.testAndSetRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.testAndSetResponse> responseObserver) {
+    public void testAndSet(com.proto.baiacu.TestAndSetRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.TestAndSetResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getTestAndSetMethod(), responseObserver);
     }
 
@@ -271,36 +271,36 @@ public final class BaiacuServiceGrpc {
             getStoreMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.proto.baiacu.storeRequest,
-                com.proto.baiacu.storeResponse>(
+                com.proto.baiacu.StoreRequest,
+                com.proto.baiacu.StoreResponse>(
                   this, METHODID_STORE)))
           .addMethod(
             getShowMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.proto.baiacu.showRequest,
-                com.proto.baiacu.showResponse>(
+                com.proto.baiacu.ShowRequest,
+                com.proto.baiacu.ShowResponse>(
                   this, METHODID_SHOW)))
           .addMethod(
             getDestroyMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.proto.baiacu.destroyRequest,
-                com.proto.baiacu.destroyResponse>(
+                com.proto.baiacu.DestroyRequest,
+                com.proto.baiacu.DestroyResponse>(
                   this, METHODID_DESTROY)))
           .addMethod(
             getDestroyByVersionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.proto.baiacu.destroyByVersionRequest,
-                com.proto.baiacu.destroyByVersionResponse>(
+                com.proto.baiacu.DestroyByVersionRequest,
+                com.proto.baiacu.DestroyByVersionResponse>(
                   this, METHODID_DESTROY_BY_VERSION)))
           .addMethod(
             getTestAndSetMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.proto.baiacu.testAndSetRequest,
-                com.proto.baiacu.testAndSetResponse>(
+                com.proto.baiacu.TestAndSetRequest,
+                com.proto.baiacu.TestAndSetResponse>(
                   this, METHODID_TEST_AND_SET)))
           .build();
     }
@@ -322,40 +322,40 @@ public final class BaiacuServiceGrpc {
 
     /**
      */
-    public void store(com.proto.baiacu.storeRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.storeResponse> responseObserver) {
+    public void store(com.proto.baiacu.StoreRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.StoreResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getStoreMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void show(com.proto.baiacu.showRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.showResponse> responseObserver) {
+    public void show(com.proto.baiacu.ShowRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.ShowResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getShowMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void destroy(com.proto.baiacu.destroyRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.destroyResponse> responseObserver) {
+    public void destroy(com.proto.baiacu.DestroyRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.DestroyResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getDestroyMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void destroyByVersion(com.proto.baiacu.destroyByVersionRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.destroyByVersionResponse> responseObserver) {
+    public void destroyByVersion(com.proto.baiacu.DestroyByVersionRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.DestroyByVersionResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getDestroyByVersionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void testAndSet(com.proto.baiacu.testAndSetRequest request,
-        io.grpc.stub.StreamObserver<com.proto.baiacu.testAndSetResponse> responseObserver) {
+    public void testAndSet(com.proto.baiacu.TestAndSetRequest request,
+        io.grpc.stub.StreamObserver<com.proto.baiacu.TestAndSetResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getTestAndSetMethod(), getCallOptions()), request, responseObserver);
     }
@@ -377,35 +377,35 @@ public final class BaiacuServiceGrpc {
 
     /**
      */
-    public com.proto.baiacu.storeResponse store(com.proto.baiacu.storeRequest request) {
+    public com.proto.baiacu.StoreResponse store(com.proto.baiacu.StoreRequest request) {
       return blockingUnaryCall(
           getChannel(), getStoreMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.proto.baiacu.showResponse show(com.proto.baiacu.showRequest request) {
+    public com.proto.baiacu.ShowResponse show(com.proto.baiacu.ShowRequest request) {
       return blockingUnaryCall(
           getChannel(), getShowMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.proto.baiacu.destroyResponse destroy(com.proto.baiacu.destroyRequest request) {
+    public com.proto.baiacu.DestroyResponse destroy(com.proto.baiacu.DestroyRequest request) {
       return blockingUnaryCall(
           getChannel(), getDestroyMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.proto.baiacu.destroyByVersionResponse destroyByVersion(com.proto.baiacu.destroyByVersionRequest request) {
+    public com.proto.baiacu.DestroyByVersionResponse destroyByVersion(com.proto.baiacu.DestroyByVersionRequest request) {
       return blockingUnaryCall(
           getChannel(), getDestroyByVersionMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.proto.baiacu.testAndSetResponse testAndSet(com.proto.baiacu.testAndSetRequest request) {
+    public com.proto.baiacu.TestAndSetResponse testAndSet(com.proto.baiacu.TestAndSetRequest request) {
       return blockingUnaryCall(
           getChannel(), getTestAndSetMethod(), getCallOptions(), request);
     }
@@ -427,40 +427,40 @@ public final class BaiacuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.storeResponse> store(
-        com.proto.baiacu.storeRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.StoreResponse> store(
+        com.proto.baiacu.StoreRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getStoreMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.showResponse> show(
-        com.proto.baiacu.showRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.ShowResponse> show(
+        com.proto.baiacu.ShowRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getShowMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.destroyResponse> destroy(
-        com.proto.baiacu.destroyRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.DestroyResponse> destroy(
+        com.proto.baiacu.DestroyRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getDestroyMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.destroyByVersionResponse> destroyByVersion(
-        com.proto.baiacu.destroyByVersionRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.DestroyByVersionResponse> destroyByVersion(
+        com.proto.baiacu.DestroyByVersionRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getDestroyByVersionMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.testAndSetResponse> testAndSet(
-        com.proto.baiacu.testAndSetRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.proto.baiacu.TestAndSetResponse> testAndSet(
+        com.proto.baiacu.TestAndSetRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getTestAndSetMethod(), getCallOptions()), request);
     }
@@ -490,24 +490,24 @@ public final class BaiacuServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_STORE:
-          serviceImpl.store((com.proto.baiacu.storeRequest) request,
-              (io.grpc.stub.StreamObserver<com.proto.baiacu.storeResponse>) responseObserver);
+          serviceImpl.store((com.proto.baiacu.StoreRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.baiacu.StoreResponse>) responseObserver);
           break;
         case METHODID_SHOW:
-          serviceImpl.show((com.proto.baiacu.showRequest) request,
-              (io.grpc.stub.StreamObserver<com.proto.baiacu.showResponse>) responseObserver);
+          serviceImpl.show((com.proto.baiacu.ShowRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.baiacu.ShowResponse>) responseObserver);
           break;
         case METHODID_DESTROY:
-          serviceImpl.destroy((com.proto.baiacu.destroyRequest) request,
-              (io.grpc.stub.StreamObserver<com.proto.baiacu.destroyResponse>) responseObserver);
+          serviceImpl.destroy((com.proto.baiacu.DestroyRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.baiacu.DestroyResponse>) responseObserver);
           break;
         case METHODID_DESTROY_BY_VERSION:
-          serviceImpl.destroyByVersion((com.proto.baiacu.destroyByVersionRequest) request,
-              (io.grpc.stub.StreamObserver<com.proto.baiacu.destroyByVersionResponse>) responseObserver);
+          serviceImpl.destroyByVersion((com.proto.baiacu.DestroyByVersionRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.baiacu.DestroyByVersionResponse>) responseObserver);
           break;
         case METHODID_TEST_AND_SET:
-          serviceImpl.testAndSet((com.proto.baiacu.testAndSetRequest) request,
-              (io.grpc.stub.StreamObserver<com.proto.baiacu.testAndSetResponse>) responseObserver);
+          serviceImpl.testAndSet((com.proto.baiacu.TestAndSetRequest) request,
+              (io.grpc.stub.StreamObserver<com.proto.baiacu.TestAndSetResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();

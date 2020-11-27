@@ -10,56 +10,56 @@ message KeyValue {
   bytes data = 3;   // o formato disso em java é ByteString
 }
 
-message storeRequest {
+message StoreRequest {
   KeyValue keyValue = 1;
 }
 
-message storeResponse {
+message StoreResponse {
   string status = 1;  // sucesso ou falha
   KeyValue keyValue = 2; //NULL se a chave foi iserida
 }
 
-message showRequest {  // esse aqui é o get
+message ShowRequest {  // esse aqui é o get
   KeyValue keyValue = 1;
 }
 
-message showResponse {
+message ShowResponse {
   string status = 1;
   KeyValue keyValue = 2; // só retorna se existir esse dado
 }
 
-message destroyRequest {
+message DestroyRequest {
   KeyValue keyValue = 1;
 }
 
-message destroyResponse {
+message DestroyResponse {
   string status = 1;  //
   KeyValue keyValue = 2; // retorna a chave removida
 }
 
-message destroyByVersionRequest {
+message DestroyByVersionRequest {
   KeyValue keyValue = 1;
 }
 
-message destroyByVersionResponse {
+message DestroyByVersionResponse {
   string status = 1;  //
   KeyValue keyValue = 2; // retorna a chave removida
 }
 
-message testAndSetRequest{
+message TestAndSetRequest{
   KeyValue keyValue = 1;
 
 }
 
-message testAndSetResponse{
+message TestAndSetResponse{
   string status = 1;
   KeyValue keyValue = 2;
 }
 
 service BaiacuService {
-  rpc Store (storeRequest) returns (storeResponse) {}
-  rpc Show (showRequest) returns (showResponse) {}
-  rpc Destroy (destroyRequest) returns (destroyResponse) {}
-  rpc DestroyByVersion (destroyByVersionRequest) returns (destroyByVersionResponse) {}
-  rpc testAndSet (testAndSetRequest) returns (testAndSetResponse) {}
+  rpc Store (StoreRequest) returns (StoreResponse) {}
+  rpc Show (ShowRequest) returns (ShowResponse) {}
+  rpc Destroy (DestroyRequest) returns (DestroyResponse) {}
+  rpc DestroyByVersion (DestroyByVersionRequest) returns (DestroyByVersionResponse) {}
+  rpc testAndSet (TestAndSetRequest) returns (TestAndSetResponse) {}
 }

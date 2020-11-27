@@ -20,55 +20,55 @@ public final class Baiacu {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_baiacu_KeyValue_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_storeRequest_descriptor;
+    internal_static_baiacu_StoreRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_storeRequest_fieldAccessorTable;
+      internal_static_baiacu_StoreRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_storeResponse_descriptor;
+    internal_static_baiacu_StoreResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_storeResponse_fieldAccessorTable;
+      internal_static_baiacu_StoreResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_showRequest_descriptor;
+    internal_static_baiacu_ShowRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_showRequest_fieldAccessorTable;
+      internal_static_baiacu_ShowRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_showResponse_descriptor;
+    internal_static_baiacu_ShowResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_showResponse_fieldAccessorTable;
+      internal_static_baiacu_ShowResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_destroyRequest_descriptor;
+    internal_static_baiacu_DestroyRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_destroyRequest_fieldAccessorTable;
+      internal_static_baiacu_DestroyRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_destroyResponse_descriptor;
+    internal_static_baiacu_DestroyResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_destroyResponse_fieldAccessorTable;
+      internal_static_baiacu_DestroyResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_destroyByVersionRequest_descriptor;
+    internal_static_baiacu_DestroyByVersionRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_destroyByVersionRequest_fieldAccessorTable;
+      internal_static_baiacu_DestroyByVersionRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_destroyByVersionResponse_descriptor;
+    internal_static_baiacu_DestroyByVersionResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_destroyByVersionResponse_fieldAccessorTable;
+      internal_static_baiacu_DestroyByVersionResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_testAndSetRequest_descriptor;
+    internal_static_baiacu_TestAndSetRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_testAndSetRequest_fieldAccessorTable;
+      internal_static_baiacu_TestAndSetRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_baiacu_testAndSetResponse_descriptor;
+    internal_static_baiacu_TestAndSetResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_baiacu_testAndSetResponse_fieldAccessorTable;
+      internal_static_baiacu_TestAndSetResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -80,31 +80,31 @@ public final class Baiacu {
     java.lang.String[] descriptorData = {
       "\n\023baiacu/baiacu.proto\022\006baiacu\"<\n\010KeyValu" +
       "e\022\017\n\007version\030\001 \001(\003\022\021\n\ttimestamp\030\002 \001(\003\022\014\n" +
-      "\004data\030\003 \001(\014\"2\n\014storeRequest\022\"\n\010keyValue\030" +
-      "\001 \001(\0132\020.baiacu.KeyValue\"C\n\rstoreResponse" +
+      "\004data\030\003 \001(\014\"2\n\014StoreRequest\022\"\n\010keyValue\030" +
+      "\001 \001(\0132\020.baiacu.KeyValue\"C\n\rStoreResponse" +
       "\022\016\n\006status\030\001 \001(\t\022\"\n\010keyValue\030\002 \001(\0132\020.bai" +
-      "acu.KeyValue\"1\n\013showRequest\022\"\n\010keyValue\030" +
-      "\001 \001(\0132\020.baiacu.KeyValue\"B\n\014showResponse\022" +
+      "acu.KeyValue\"1\n\013ShowRequest\022\"\n\010keyValue\030" +
+      "\001 \001(\0132\020.baiacu.KeyValue\"B\n\014ShowResponse\022" +
       "\016\n\006status\030\001 \001(\t\022\"\n\010keyValue\030\002 \001(\0132\020.baia" +
-      "cu.KeyValue\"4\n\016destroyRequest\022\"\n\010keyValu" +
-      "e\030\001 \001(\0132\020.baiacu.KeyValue\"E\n\017destroyResp" +
+      "cu.KeyValue\"4\n\016DestroyRequest\022\"\n\010keyValu" +
+      "e\030\001 \001(\0132\020.baiacu.KeyValue\"E\n\017DestroyResp" +
       "onse\022\016\n\006status\030\001 \001(\t\022\"\n\010keyValue\030\002 \001(\0132\020" +
-      ".baiacu.KeyValue\"=\n\027destroyByVersionRequ" +
+      ".baiacu.KeyValue\"=\n\027DestroyByVersionRequ" +
       "est\022\"\n\010keyValue\030\001 \001(\0132\020.baiacu.KeyValue\"" +
-      "N\n\030destroyByVersionResponse\022\016\n\006status\030\001 " +
+      "N\n\030DestroyByVersionResponse\022\016\n\006status\030\001 " +
       "\001(\t\022\"\n\010keyValue\030\002 \001(\0132\020.baiacu.KeyValue\"" +
-      "7\n\021testAndSetRequest\022\"\n\010keyValue\030\001 \001(\0132\020" +
-      ".baiacu.KeyValue\"H\n\022testAndSetResponse\022\016" +
+      "7\n\021TestAndSetRequest\022\"\n\010keyValue\030\001 \001(\0132\020" +
+      ".baiacu.KeyValue\"H\n\022TestAndSetResponse\022\016" +
       "\n\006status\030\001 \001(\t\022\"\n\010keyValue\030\002 \001(\0132\020.baiac" +
       "u.KeyValue2\332\002\n\rBaiacuService\0226\n\005Store\022\024." +
-      "baiacu.storeRequest\032\025.baiacu.storeRespon" +
-      "se\"\000\0223\n\004Show\022\023.baiacu.showRequest\032\024.baia" +
-      "cu.showResponse\"\000\022<\n\007Destroy\022\026.baiacu.de" +
-      "stroyRequest\032\027.baiacu.destroyResponse\"\000\022" +
-      "W\n\020DestroyByVersion\022\037.baiacu.destroyByVe" +
-      "rsionRequest\032 .baiacu.destroyByVersionRe" +
-      "sponse\"\000\022E\n\ntestAndSet\022\031.baiacu.testAndS" +
-      "etRequest\032\032.baiacu.testAndSetResponse\"\000B" +
+      "baiacu.StoreRequest\032\025.baiacu.StoreRespon" +
+      "se\"\000\0223\n\004Show\022\023.baiacu.ShowRequest\032\024.baia" +
+      "cu.ShowResponse\"\000\022<\n\007Destroy\022\026.baiacu.De" +
+      "stroyRequest\032\027.baiacu.DestroyResponse\"\000\022" +
+      "W\n\020DestroyByVersion\022\037.baiacu.DestroyByVe" +
+      "rsionRequest\032 .baiacu.DestroyByVersionRe" +
+      "sponse\"\000\022E\n\ntestAndSet\022\031.baiacu.TestAndS" +
+      "etRequest\032\032.baiacu.TestAndSetResponse\"\000B" +
       "\024\n\020com.proto.baiacuP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
@@ -117,65 +117,65 @@ public final class Baiacu {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_baiacu_KeyValue_descriptor,
         new java.lang.String[] { "Version", "Timestamp", "Data", });
-    internal_static_baiacu_storeRequest_descriptor =
+    internal_static_baiacu_StoreRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_baiacu_storeRequest_fieldAccessorTable = new
+    internal_static_baiacu_StoreRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_storeRequest_descriptor,
+        internal_static_baiacu_StoreRequest_descriptor,
         new java.lang.String[] { "KeyValue", });
-    internal_static_baiacu_storeResponse_descriptor =
+    internal_static_baiacu_StoreResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_baiacu_storeResponse_fieldAccessorTable = new
+    internal_static_baiacu_StoreResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_storeResponse_descriptor,
+        internal_static_baiacu_StoreResponse_descriptor,
         new java.lang.String[] { "Status", "KeyValue", });
-    internal_static_baiacu_showRequest_descriptor =
+    internal_static_baiacu_ShowRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_baiacu_showRequest_fieldAccessorTable = new
+    internal_static_baiacu_ShowRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_showRequest_descriptor,
+        internal_static_baiacu_ShowRequest_descriptor,
         new java.lang.String[] { "KeyValue", });
-    internal_static_baiacu_showResponse_descriptor =
+    internal_static_baiacu_ShowResponse_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_baiacu_showResponse_fieldAccessorTable = new
+    internal_static_baiacu_ShowResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_showResponse_descriptor,
+        internal_static_baiacu_ShowResponse_descriptor,
         new java.lang.String[] { "Status", "KeyValue", });
-    internal_static_baiacu_destroyRequest_descriptor =
+    internal_static_baiacu_DestroyRequest_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_baiacu_destroyRequest_fieldAccessorTable = new
+    internal_static_baiacu_DestroyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_destroyRequest_descriptor,
+        internal_static_baiacu_DestroyRequest_descriptor,
         new java.lang.String[] { "KeyValue", });
-    internal_static_baiacu_destroyResponse_descriptor =
+    internal_static_baiacu_DestroyResponse_descriptor =
       getDescriptor().getMessageTypes().get(6);
-    internal_static_baiacu_destroyResponse_fieldAccessorTable = new
+    internal_static_baiacu_DestroyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_destroyResponse_descriptor,
+        internal_static_baiacu_DestroyResponse_descriptor,
         new java.lang.String[] { "Status", "KeyValue", });
-    internal_static_baiacu_destroyByVersionRequest_descriptor =
+    internal_static_baiacu_DestroyByVersionRequest_descriptor =
       getDescriptor().getMessageTypes().get(7);
-    internal_static_baiacu_destroyByVersionRequest_fieldAccessorTable = new
+    internal_static_baiacu_DestroyByVersionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_destroyByVersionRequest_descriptor,
+        internal_static_baiacu_DestroyByVersionRequest_descriptor,
         new java.lang.String[] { "KeyValue", });
-    internal_static_baiacu_destroyByVersionResponse_descriptor =
+    internal_static_baiacu_DestroyByVersionResponse_descriptor =
       getDescriptor().getMessageTypes().get(8);
-    internal_static_baiacu_destroyByVersionResponse_fieldAccessorTable = new
+    internal_static_baiacu_DestroyByVersionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_destroyByVersionResponse_descriptor,
+        internal_static_baiacu_DestroyByVersionResponse_descriptor,
         new java.lang.String[] { "Status", "KeyValue", });
-    internal_static_baiacu_testAndSetRequest_descriptor =
+    internal_static_baiacu_TestAndSetRequest_descriptor =
       getDescriptor().getMessageTypes().get(9);
-    internal_static_baiacu_testAndSetRequest_fieldAccessorTable = new
+    internal_static_baiacu_TestAndSetRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_testAndSetRequest_descriptor,
+        internal_static_baiacu_TestAndSetRequest_descriptor,
         new java.lang.String[] { "KeyValue", });
-    internal_static_baiacu_testAndSetResponse_descriptor =
+    internal_static_baiacu_TestAndSetResponse_descriptor =
       getDescriptor().getMessageTypes().get(10);
-    internal_static_baiacu_testAndSetResponse_fieldAccessorTable = new
+    internal_static_baiacu_TestAndSetResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_baiacu_testAndSetResponse_descriptor,
+        internal_static_baiacu_TestAndSetResponse_descriptor,
         new java.lang.String[] { "Status", "KeyValue", });
   }
 
