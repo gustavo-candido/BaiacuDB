@@ -8,24 +8,32 @@ public interface KeyValueOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int64 version = 1;</code>
-   * @return The version.
+   * <code>.baiacu.Key key = 1;</code>
+   * @return Whether the key field is set.
    */
-  long getVersion();
+  boolean hasKey();
+  /**
+   * <code>.baiacu.Key key = 1;</code>
+   * @return The key.
+   */
+  com.proto.baiacu.Key getKey();
+  /**
+   * <code>.baiacu.Key key = 1;</code>
+   */
+  com.proto.baiacu.KeyOrBuilder getKeyOrBuilder();
 
   /**
-   * <code>int64 timestamp = 2;</code>
-   * @return The timestamp.
+   * <code>.baiacu.Value value = 2;</code>
+   * @return Whether the value field is set.
    */
-  long getTimestamp();
-
+  boolean hasValue();
   /**
-   * <pre>
-   * o formato disso em java é ByteString
-   * </pre>
-   *
-   * <code>bytes data = 3;</code>
-   * @return The data.
+   * <code>.baiacu.Value value = 2;</code>
+   * @return The value.
    */
-  com.google.protobuf.ByteString getData();
+  com.proto.baiacu.Value getValue();
+  /**
+   * <code>.baiacu.Value value = 2;</code>
+   */
+  com.proto.baiacu.ValueOrBuilder getValueOrBuilder();
 }

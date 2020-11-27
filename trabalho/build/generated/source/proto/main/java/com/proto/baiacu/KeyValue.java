@@ -16,7 +16,6 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private KeyValue() {
-    data_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
@@ -49,19 +48,30 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
+          case 10: {
+            com.proto.baiacu.Key.Builder subBuilder = null;
+            if (key_ != null) {
+              subBuilder = key_.toBuilder();
+            }
+            key_ = input.readMessage(com.proto.baiacu.Key.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(key_);
+              key_ = subBuilder.buildPartial();
+            }
 
-            version_ = input.readInt64();
             break;
           }
-          case 16: {
+          case 18: {
+            com.proto.baiacu.Value.Builder subBuilder = null;
+            if (value_ != null) {
+              subBuilder = value_.toBuilder();
+            }
+            value_ = input.readMessage(com.proto.baiacu.Value.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(value_);
+              value_ = subBuilder.buildPartial();
+            }
 
-            timestamp_ = input.readInt64();
-            break;
-          }
-          case 26: {
-
-            data_ = input.readBytes();
             break;
           }
           default: {
@@ -96,41 +106,56 @@ private static final long serialVersionUID = 0L;
             com.proto.baiacu.KeyValue.class, com.proto.baiacu.KeyValue.Builder.class);
   }
 
-  public static final int VERSION_FIELD_NUMBER = 1;
-  private long version_;
+  public static final int KEY_FIELD_NUMBER = 1;
+  private com.proto.baiacu.Key key_;
   /**
-   * <code>int64 version = 1;</code>
-   * @return The version.
+   * <code>.baiacu.Key key = 1;</code>
+   * @return Whether the key field is set.
    */
   @java.lang.Override
-  public long getVersion() {
-    return version_;
+  public boolean hasKey() {
+    return key_ != null;
+  }
+  /**
+   * <code>.baiacu.Key key = 1;</code>
+   * @return The key.
+   */
+  @java.lang.Override
+  public com.proto.baiacu.Key getKey() {
+    return key_ == null ? com.proto.baiacu.Key.getDefaultInstance() : key_;
+  }
+  /**
+   * <code>.baiacu.Key key = 1;</code>
+   */
+  @java.lang.Override
+  public com.proto.baiacu.KeyOrBuilder getKeyOrBuilder() {
+    return getKey();
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 2;
-  private long timestamp_;
+  public static final int VALUE_FIELD_NUMBER = 2;
+  private com.proto.baiacu.Value value_;
   /**
-   * <code>int64 timestamp = 2;</code>
-   * @return The timestamp.
+   * <code>.baiacu.Value value = 2;</code>
+   * @return Whether the value field is set.
    */
   @java.lang.Override
-  public long getTimestamp() {
-    return timestamp_;
+  public boolean hasValue() {
+    return value_ != null;
   }
-
-  public static final int DATA_FIELD_NUMBER = 3;
-  private com.google.protobuf.ByteString data_;
   /**
-   * <pre>
-   * o formato disso em java é ByteString
-   * </pre>
-   *
-   * <code>bytes data = 3;</code>
-   * @return The data.
+   * <code>.baiacu.Value value = 2;</code>
+   * @return The value.
    */
   @java.lang.Override
-  public com.google.protobuf.ByteString getData() {
-    return data_;
+  public com.proto.baiacu.Value getValue() {
+    return value_ == null ? com.proto.baiacu.Value.getDefaultInstance() : value_;
+  }
+  /**
+   * <code>.baiacu.Value value = 2;</code>
+   */
+  @java.lang.Override
+  public com.proto.baiacu.ValueOrBuilder getValueOrBuilder() {
+    return getValue();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -147,14 +172,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (version_ != 0L) {
-      output.writeInt64(1, version_);
+    if (key_ != null) {
+      output.writeMessage(1, getKey());
     }
-    if (timestamp_ != 0L) {
-      output.writeInt64(2, timestamp_);
-    }
-    if (!data_.isEmpty()) {
-      output.writeBytes(3, data_);
+    if (value_ != null) {
+      output.writeMessage(2, getValue());
     }
     unknownFields.writeTo(output);
   }
@@ -165,17 +187,13 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (version_ != 0L) {
+    if (key_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, version_);
+        .computeMessageSize(1, getKey());
     }
-    if (timestamp_ != 0L) {
+    if (value_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(2, timestamp_);
-    }
-    if (!data_.isEmpty()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(3, data_);
+        .computeMessageSize(2, getValue());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -192,12 +210,16 @@ private static final long serialVersionUID = 0L;
     }
     com.proto.baiacu.KeyValue other = (com.proto.baiacu.KeyValue) obj;
 
-    if (getVersion()
-        != other.getVersion()) return false;
-    if (getTimestamp()
-        != other.getTimestamp()) return false;
-    if (!getData()
-        .equals(other.getData())) return false;
+    if (hasKey() != other.hasKey()) return false;
+    if (hasKey()) {
+      if (!getKey()
+          .equals(other.getKey())) return false;
+    }
+    if (hasValue() != other.hasValue()) return false;
+    if (hasValue()) {
+      if (!getValue()
+          .equals(other.getValue())) return false;
+    }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -209,14 +231,14 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + VERSION_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        getVersion());
-    hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        getTimestamp());
-    hash = (37 * hash) + DATA_FIELD_NUMBER;
-    hash = (53 * hash) + getData().hashCode();
+    if (hasKey()) {
+      hash = (37 * hash) + KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getKey().hashCode();
+    }
+    if (hasValue()) {
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getValue().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -350,12 +372,18 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      version_ = 0L;
-
-      timestamp_ = 0L;
-
-      data_ = com.google.protobuf.ByteString.EMPTY;
-
+      if (keyBuilder_ == null) {
+        key_ = null;
+      } else {
+        key_ = null;
+        keyBuilder_ = null;
+      }
+      if (valueBuilder_ == null) {
+        value_ = null;
+      } else {
+        value_ = null;
+        valueBuilder_ = null;
+      }
       return this;
     }
 
@@ -382,9 +410,16 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.proto.baiacu.KeyValue buildPartial() {
       com.proto.baiacu.KeyValue result = new com.proto.baiacu.KeyValue(this);
-      result.version_ = version_;
-      result.timestamp_ = timestamp_;
-      result.data_ = data_;
+      if (keyBuilder_ == null) {
+        result.key_ = key_;
+      } else {
+        result.key_ = keyBuilder_.build();
+      }
+      if (valueBuilder_ == null) {
+        result.value_ = value_;
+      } else {
+        result.value_ = valueBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -433,14 +468,11 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.proto.baiacu.KeyValue other) {
       if (other == com.proto.baiacu.KeyValue.getDefaultInstance()) return this;
-      if (other.getVersion() != 0L) {
-        setVersion(other.getVersion());
+      if (other.hasKey()) {
+        mergeKey(other.getKey());
       }
-      if (other.getTimestamp() != 0L) {
-        setTimestamp(other.getTimestamp());
-      }
-      if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
-        setData(other.getData());
+      if (other.hasValue()) {
+        mergeValue(other.getValue());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -471,112 +503,242 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private long version_ ;
+    private com.proto.baiacu.Key key_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.proto.baiacu.Key, com.proto.baiacu.Key.Builder, com.proto.baiacu.KeyOrBuilder> keyBuilder_;
     /**
-     * <code>int64 version = 1;</code>
-     * @return The version.
+     * <code>.baiacu.Key key = 1;</code>
+     * @return Whether the key field is set.
      */
-    @java.lang.Override
-    public long getVersion() {
-      return version_;
+    public boolean hasKey() {
+      return keyBuilder_ != null || key_ != null;
     }
     /**
-     * <code>int64 version = 1;</code>
-     * @param value The version to set.
-     * @return This builder for chaining.
+     * <code>.baiacu.Key key = 1;</code>
+     * @return The key.
      */
-    public Builder setVersion(long value) {
-      
-      version_ = value;
-      onChanged();
+    public com.proto.baiacu.Key getKey() {
+      if (keyBuilder_ == null) {
+        return key_ == null ? com.proto.baiacu.Key.getDefaultInstance() : key_;
+      } else {
+        return keyBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.baiacu.Key key = 1;</code>
+     */
+    public Builder setKey(com.proto.baiacu.Key value) {
+      if (keyBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        key_ = value;
+        onChanged();
+      } else {
+        keyBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
-     * <code>int64 version = 1;</code>
-     * @return This builder for chaining.
+     * <code>.baiacu.Key key = 1;</code>
      */
-    public Builder clearVersion() {
-      
-      version_ = 0L;
-      onChanged();
+    public Builder setKey(
+        com.proto.baiacu.Key.Builder builderForValue) {
+      if (keyBuilder_ == null) {
+        key_ = builderForValue.build();
+        onChanged();
+      } else {
+        keyBuilder_.setMessage(builderForValue.build());
+      }
+
       return this;
+    }
+    /**
+     * <code>.baiacu.Key key = 1;</code>
+     */
+    public Builder mergeKey(com.proto.baiacu.Key value) {
+      if (keyBuilder_ == null) {
+        if (key_ != null) {
+          key_ =
+            com.proto.baiacu.Key.newBuilder(key_).mergeFrom(value).buildPartial();
+        } else {
+          key_ = value;
+        }
+        onChanged();
+      } else {
+        keyBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.baiacu.Key key = 1;</code>
+     */
+    public Builder clearKey() {
+      if (keyBuilder_ == null) {
+        key_ = null;
+        onChanged();
+      } else {
+        key_ = null;
+        keyBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.baiacu.Key key = 1;</code>
+     */
+    public com.proto.baiacu.Key.Builder getKeyBuilder() {
+      
+      onChanged();
+      return getKeyFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.baiacu.Key key = 1;</code>
+     */
+    public com.proto.baiacu.KeyOrBuilder getKeyOrBuilder() {
+      if (keyBuilder_ != null) {
+        return keyBuilder_.getMessageOrBuilder();
+      } else {
+        return key_ == null ?
+            com.proto.baiacu.Key.getDefaultInstance() : key_;
+      }
+    }
+    /**
+     * <code>.baiacu.Key key = 1;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.proto.baiacu.Key, com.proto.baiacu.Key.Builder, com.proto.baiacu.KeyOrBuilder> 
+        getKeyFieldBuilder() {
+      if (keyBuilder_ == null) {
+        keyBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.proto.baiacu.Key, com.proto.baiacu.Key.Builder, com.proto.baiacu.KeyOrBuilder>(
+                getKey(),
+                getParentForChildren(),
+                isClean());
+        key_ = null;
+      }
+      return keyBuilder_;
     }
 
-    private long timestamp_ ;
+    private com.proto.baiacu.Value value_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.proto.baiacu.Value, com.proto.baiacu.Value.Builder, com.proto.baiacu.ValueOrBuilder> valueBuilder_;
     /**
-     * <code>int64 timestamp = 2;</code>
-     * @return The timestamp.
+     * <code>.baiacu.Value value = 2;</code>
+     * @return Whether the value field is set.
      */
-    @java.lang.Override
-    public long getTimestamp() {
-      return timestamp_;
+    public boolean hasValue() {
+      return valueBuilder_ != null || value_ != null;
     }
     /**
-     * <code>int64 timestamp = 2;</code>
-     * @param value The timestamp to set.
-     * @return This builder for chaining.
+     * <code>.baiacu.Value value = 2;</code>
+     * @return The value.
      */
-    public Builder setTimestamp(long value) {
-      
-      timestamp_ = value;
-      onChanged();
-      return this;
+    public com.proto.baiacu.Value getValue() {
+      if (valueBuilder_ == null) {
+        return value_ == null ? com.proto.baiacu.Value.getDefaultInstance() : value_;
+      } else {
+        return valueBuilder_.getMessage();
+      }
     }
     /**
-     * <code>int64 timestamp = 2;</code>
-     * @return This builder for chaining.
+     * <code>.baiacu.Value value = 2;</code>
      */
-    public Builder clearTimestamp() {
-      
-      timestamp_ = 0L;
-      onChanged();
-      return this;
-    }
+    public Builder setValue(com.proto.baiacu.Value value) {
+      if (valueBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        value_ = value;
+        onChanged();
+      } else {
+        valueBuilder_.setMessage(value);
+      }
 
-    private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
-    /**
-     * <pre>
-     * o formato disso em java é ByteString
-     * </pre>
-     *
-     * <code>bytes data = 3;</code>
-     * @return The data.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString getData() {
-      return data_;
-    }
-    /**
-     * <pre>
-     * o formato disso em java é ByteString
-     * </pre>
-     *
-     * <code>bytes data = 3;</code>
-     * @param value The data to set.
-     * @return This builder for chaining.
-     */
-    public Builder setData(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      data_ = value;
-      onChanged();
       return this;
     }
     /**
-     * <pre>
-     * o formato disso em java é ByteString
-     * </pre>
-     *
-     * <code>bytes data = 3;</code>
-     * @return This builder for chaining.
+     * <code>.baiacu.Value value = 2;</code>
      */
-    public Builder clearData() {
+    public Builder setValue(
+        com.proto.baiacu.Value.Builder builderForValue) {
+      if (valueBuilder_ == null) {
+        value_ = builderForValue.build();
+        onChanged();
+      } else {
+        valueBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>.baiacu.Value value = 2;</code>
+     */
+    public Builder mergeValue(com.proto.baiacu.Value value) {
+      if (valueBuilder_ == null) {
+        if (value_ != null) {
+          value_ =
+            com.proto.baiacu.Value.newBuilder(value_).mergeFrom(value).buildPartial();
+        } else {
+          value_ = value;
+        }
+        onChanged();
+      } else {
+        valueBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.baiacu.Value value = 2;</code>
+     */
+    public Builder clearValue() {
+      if (valueBuilder_ == null) {
+        value_ = null;
+        onChanged();
+      } else {
+        value_ = null;
+        valueBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.baiacu.Value value = 2;</code>
+     */
+    public com.proto.baiacu.Value.Builder getValueBuilder() {
       
-      data_ = getDefaultInstance().getData();
       onChanged();
-      return this;
+      return getValueFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.baiacu.Value value = 2;</code>
+     */
+    public com.proto.baiacu.ValueOrBuilder getValueOrBuilder() {
+      if (valueBuilder_ != null) {
+        return valueBuilder_.getMessageOrBuilder();
+      } else {
+        return value_ == null ?
+            com.proto.baiacu.Value.getDefaultInstance() : value_;
+      }
+    }
+    /**
+     * <code>.baiacu.Value value = 2;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.proto.baiacu.Value, com.proto.baiacu.Value.Builder, com.proto.baiacu.ValueOrBuilder> 
+        getValueFieldBuilder() {
+      if (valueBuilder_ == null) {
+        valueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.proto.baiacu.Value, com.proto.baiacu.Value.Builder, com.proto.baiacu.ValueOrBuilder>(
+                getValue(),
+                getParentForChildren(),
+                isClean());
+        value_ = null;
+      }
+      return valueBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

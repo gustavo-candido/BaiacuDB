@@ -1,19 +1,31 @@
 package com.baiacu.server;
 
+import com.baiacu.storage.BaiacuStorage;
 import com.proto.baiacu.*;
 import io.grpc.stub.StreamObserver;
+import java.util.HashMap;
+
+
 
 public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase {
+    private BaiacuStorage storage;
+
+    public BaiacuServiceImpl(BaiacuStorage storage) {
+        this.storage = storage;
+    }
+
 
     @Override
     public void store(StoreRequest request, StreamObserver<StoreResponse> responseObserver) {
-        KeyValue keyValue = request.getKeyValue();
+        Key key = request.getKeyValue().getKey();
+        Value value = request.getKeyValue().getValue();
 
 
 
 
         //TODO: todo o processo de guardar a informação na tabela key-value
-        //TODO: depois de armazenado retornar o key-value armazenado
+        //TODO: depois de armazenado retornar null se o key-value foi armazenado
+
 
 
 
@@ -33,13 +45,24 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase {
 
     @Override
     public void show(ShowRequest request, StreamObserver<ShowResponse> responseObserver) {
-        super.show(request, responseObserver);
+        Key key = request.getKeyValue().getKey();
+
+        //TODO: retira a informação do banco
+        //TODO:
+
+
+
+
+        //super.show(request, responseObserver);
+
     }
 
     @Override
     public void destroy(DestroyRequest request, StreamObserver<DestroyResponse> responseObserver) {
         super.destroy(request, responseObserver);
     }
+
+
 
     @Override
     public void destroyByVersion(DestroyByVersionRequest request, StreamObserver<DestroyByVersionResponse> responseObserver) {
