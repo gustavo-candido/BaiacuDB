@@ -4,6 +4,10 @@
 package com.proto.baiacu;
 
 /**
+ * <pre>
+ * BIG INT NO JAVA É UMA STRING
+ * </pre>
+ *
  * Protobuf type {@code baiacu.Key}
  */
 public final class Key extends
@@ -280,6 +284,10 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
+   * <pre>
+   * BIG INT NO JAVA É UMA STRING
+   * </pre>
+   *
    * Protobuf type {@code baiacu.Key}
    */
   public static final class Builder extends

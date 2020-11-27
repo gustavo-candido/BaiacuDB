@@ -13,6 +13,17 @@ public class BaiacuServer {
     private static final int PORT = 50053;
     private Server server;
 
+    public BaiacuServer() {
+        this.storage = new BaiacuStorage();
+    }
+
+    public BaiacuStorage getStorage() {
+        return storage;
+    }
+
+    public void setStorage(BaiacuStorage storage) {
+        this.storage = storage;
+    }
 
     public void start() throws IOException {
 
