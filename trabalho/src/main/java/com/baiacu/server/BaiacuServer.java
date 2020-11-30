@@ -1,12 +1,16 @@
 package com.baiacu.server;
 
 import com.baiacu.storage.BaiacuStorage;
+import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 public class BaiacuServer {
     private BaiacuStorage storage;
@@ -26,9 +30,11 @@ public class BaiacuServer {
     }
 
     public void start() throws IOException {
+        ExecutorService executor = Executors.newFixedThreadPool(16);
 
         server = ServerBuilder.forPort(PORT)
-                .addService(new BaiacuServiceImpl(storage))
+                .addService( new BaiacuServiceImpl(storage))
+                .executor(executor)
                 .build()
                 .start();
     }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 
-public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase {
+public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  {
     private BaiacuStorage storage;
 
     public BaiacuServiceImpl(BaiacuStorage storage) {
@@ -73,4 +73,5 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase {
     public void testAndSet(TestAndSetRequest request, StreamObserver<TestAndSetResponse> responseObserver) {
         super.testAndSet(request, responseObserver);
     }
+
 }
