@@ -4,36 +4,24 @@ import com.baiacu.storage.Exception.StorageException;
 import com.proto.baiacu.Key;
 import com.proto.baiacu.Value;
 
+import javax.xml.crypto.Data;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BaiacuStorage {
-    private HashMap<Key, Value> DatabaseMap;
-
+    private ConcurrentHashMap<Key, Value> DatabaseMap;
     public BaiacuStorage() {
-        this.DatabaseMap = new HashMap<Key, Value>();
+        this.DatabaseMap = new ConcurrentHashMap<Key, Value>();
     }
 
-    public boolean  setValue(Key key, Value value)  {
-        Value data = DatabaseMap.get(key);
-
-        if (data != null) {
-            throw new StorageException("\uD83D\uDEA9️Search for a unknow Key");
-        }
-
+    public boolean setValue(Key key, Value value)  {
         DatabaseMap.put(key, value);
-
         return true;
     }
 
-
-
     public Value getValue(Key key){
         Value value  = DatabaseMap.get(key);
-
-        if (value != null) {
-            throw new StorageException("\uD83D\uDEA9️Search for a unknow Key");
-        }
-
         return value;
     }
 

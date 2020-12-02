@@ -1,6 +1,7 @@
 package com.baiacu.server;
 
 import com.baiacu.storage.BaiacuStorage;
+import com.baiacu.storage.Exception.StorageException;
 import com.proto.baiacu.*;
 import io.grpc.stub.StreamObserver;
 import java.util.HashMap;
@@ -20,49 +21,33 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
         Key key = request.getKeyValue().getKey();
         Value value = request.getKeyValue().getValue();
 
+        storage.setValue(key, value);
 
-
-
-        //TODO: todo o processo de guardar a informação na tabela key-value
-        //TODO: depois de armazenado retornar null se o key-value foi armazenado
-
-
-
-
-
-
-        // constrói a respota
         StoreResponse response = StoreResponse.newBuilder()
                 .setStatus("SUCESS")
                 .build();
 
-        // envia a resposta
         responseObserver.onNext(response);
         responseObserver.onCompleted();
-
-        //super.store(request, responseObserver);
     }
 
     @Override
     public void show(ShowRequest request, StreamObserver<ShowResponse> responseObserver) {
-        Key key = request.getKeyValue().getKey();
+        Key key = request.getKey();
+        Value value = storage.getValue(key);
 
-        //TODO: retira a informação do banco
-        //TODO:
+        ShowResponse response = ShowResponse.newBuilder()
+                .setValue(value)
+                .build();
 
-
-
-
-        //super.show(request, responseObserver);
-
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
     public void destroy(DestroyRequest request, StreamObserver<DestroyResponse> responseObserver) {
         super.destroy(request, responseObserver);
     }
-
-
 
     @Override
     public void destroyByVersion(DestroyByVersionRequest request, StreamObserver<DestroyByVersionResponse> responseObserver) {

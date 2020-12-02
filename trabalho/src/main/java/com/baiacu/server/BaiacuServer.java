@@ -5,16 +5,13 @@ import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
-
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public class BaiacuServer {
     private BaiacuStorage storage;
-    private static final int PORT = 50053;
+    private static final int PORT = 50054;
     private Server server;
 
     public BaiacuServer() {
