@@ -24,7 +24,7 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
         storage.setValue(key, value);
 
         StoreResponse response = StoreResponse.newBuilder()
-                .setStatus("SUCESS")
+                .setStatus("SUCCESS")
                 .build();
 
         responseObserver.onNext(response);
