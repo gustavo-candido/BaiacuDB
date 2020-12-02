@@ -46,6 +46,7 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
 
     @Override
     public void destroy(DestroyRequest request, StreamObserver<DestroyResponse> responseObserver) {
+        // candido teste de branch
         super.destroy(request, responseObserver);
     }
 
