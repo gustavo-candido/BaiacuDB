@@ -8,19 +8,10 @@ import java.util.concurrent.Callable;
 public class WorkerDestroy implements Callable<DestroyResponse> {
     private HashMap<Key, Value> hashMap;
     private DestroyRequest request;
-    private DestroyResponse response;
 
     public WorkerDestroy(HashMap<Key, Value> hashMap, DestroyRequest request) {
         this.hashMap = hashMap;
         this.request = request;
-    }
-
-    public HashMap<Key, Value> getHashMap() {
-        return hashMap;
-    }
-
-    public void setHashMap(HashMap<Key, Value> hashMap) {
-        this.hashMap = hashMap;
     }
 
     public DestroyRequest getRequest() {

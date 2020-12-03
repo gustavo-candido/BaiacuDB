@@ -1,7 +1,6 @@
 package com.baiacu.server;
 
 import SGBD.Ruler;
-import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -11,19 +10,11 @@ import java.util.concurrent.Executors;
 
 public class BaiacuServer {
     private Ruler ruler;
-    private static final int PORT = 50051;
+    private static int PORT = 50051;
     private Server server;
 
     public BaiacuServer() {
         this.ruler = new Ruler();
-    }
-
-    public Ruler getStorage() {
-        return ruler;
-    }
-
-    public void setStorage(Ruler ruler) {
-        this.ruler = ruler;
     }
 
     public void start() throws IOException {

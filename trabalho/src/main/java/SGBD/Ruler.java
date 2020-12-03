@@ -9,8 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Ruler {
-    static private int MAX_T = 3;
-    private HashMap<Key, Value> data = new HashMap<Key, Value>();
+    private int MAX_T = 3;
+    private HashMap<Key, Value> data = new HashMap<>();
     private ExecutorService pool = Executors.newFixedThreadPool(MAX_T);
 
 
@@ -35,7 +35,7 @@ public class Ruler {
     }
 
     public ShowResponse showHandler(ShowRequest request)
-        throws ExecutionException, InterruptedException {
+        throws ExecutionException {
         Future<ShowResponse> submit = pool.submit(new WorkerShow(data, request));
         try {
             return submit.get();
@@ -47,7 +47,7 @@ public class Ruler {
 
     }
 
-    public DestroyResponse destroyHandler(DestroyRequest request) throws ExecutionException, InterruptedException {
+    public DestroyResponse destroyHandler(DestroyRequest request) throws ExecutionException {
         Future<DestroyResponse> submit = pool.submit(new WorkerDestroy(data, request));
         try {
             return submit.get();

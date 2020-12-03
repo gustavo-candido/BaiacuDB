@@ -1,10 +1,4 @@
 package com.baiacu.client;
-
-import com.google.protobuf.ByteString;
-import com.proto.baiacu.*;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-
 import java.util.Scanner;
 
 public class BaiacuClient {
