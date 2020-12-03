@@ -14,7 +14,6 @@ public class APICalls {
 
         BaiacuServiceGrpc.BaiacuServiceBlockingStub client =  BaiacuServiceGrpc.newBlockingStub(channel);
 
-
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
                 .setValue(value)
