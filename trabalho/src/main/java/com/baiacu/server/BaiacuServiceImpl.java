@@ -3,7 +3,6 @@ package com.baiacu.server;
 import SGBD.Ruler;
 import com.proto.baiacu.*;
 import io.grpc.stub.StreamObserver;
-import java.util.concurrent.ExecutionException;
 
 
 public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  {

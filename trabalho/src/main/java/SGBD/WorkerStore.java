@@ -31,15 +31,34 @@ public class WorkerStore implements Callable<StoreResponse> {
         this.request = request;
     }
 
+//    retorna a tupla (e,v') onde e=SUCCESS e v'=NULL se k-v foi inserido
+//    retorna a tupla (e,v') onde e=ERROR e v'=(ver,ts,data) se já existia uma entrada no banco de dados com a chave k e vers, ts e data correspondem, respectivamente, à versão, timestamp e dados de tal entrada
+//    Todo: Null não tá dando certo
+
     @Override
     public StoreResponse call() throws Exception {
-        this.hashMap.put(request.getKeyValue().getKey(), request.getKeyValue().getValue());
-        StoreResponse response = StoreResponse.newBuilder()
-                .setValue(request.getKeyValue().getValue())
-                .setStatus("SUCCESS")
-                .build();
+        Key key = request.getKeyValue().getKey();
 
-        //TODO: deve retornar erro se existir uma entrada no banco com essa Chave K e dados iguais
-        return response;
+        // já existe key
+        if (hashMap.containsKey(key)) {
+            return  StoreResponse.newBuilder()
+                .setStatus("ERROR")
+                .setValue(hashMap.get(key))
+                .build();
+        }
+
+        Value reqData = request.getKeyValue().getValue();
+
+        Value value = Value.newBuilder()
+            .setVersion(1)
+            .setData(reqData.getData())
+            .setTimestamp(reqData.getTimestamp())
+            .build();
+
+        this.hashMap.put(key,value);
+
+        return StoreResponse.newBuilder()
+            .setStatus("SUCCESS")
+            .build();
     }
 }
