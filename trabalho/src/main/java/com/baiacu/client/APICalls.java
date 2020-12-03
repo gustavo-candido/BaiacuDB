@@ -36,7 +36,7 @@ public class APICalls {
         ShowRequest request = ShowRequest.newBuilder().setKey(key).build();
 
         ShowResponse response = client.show(request);
-        System.out.println(response);
+        System.out.println(response.getValue());
 
         channel.shutdown();
 

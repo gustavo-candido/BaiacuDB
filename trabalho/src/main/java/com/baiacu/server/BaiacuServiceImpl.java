@@ -1,62 +1,95 @@
 package com.baiacu.server;
 
-import com.baiacu.storage.BaiacuStorage;
-import com.baiacu.storage.Exception.StorageException;
+import SGBD.Ruler;
 import com.proto.baiacu.*;
 import io.grpc.stub.StreamObserver;
-import java.util.HashMap;
-
+import java.util.concurrent.ExecutionException;
 
 
 public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  {
-    private BaiacuStorage storage;
+    private Ruler ruler;
 
-    public BaiacuServiceImpl(BaiacuStorage storage) {
-        this.storage = storage;
+    public BaiacuServiceImpl(Ruler ruler) {
+        this.ruler = ruler;
     }
 
 
     @Override
     public void store(StoreRequest request, StreamObserver<StoreResponse> responseObserver) {
-        Key key = request.getKeyValue().getKey();
-        Value value = request.getKeyValue().getValue();
-
-        storage.setValue(key, value);
-
-        StoreResponse response = StoreResponse.newBuilder()
-                .setStatus("SUCCESS")
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+        try{
+            StoreResponse response = ruler.storeHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e){
+            StoreResponse response = StoreResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
     }
 
     @Override
     public void show(ShowRequest request, StreamObserver<ShowResponse> responseObserver) {
-        Key key = request.getKey();
-        Value value = storage.getValue(key);
-
-        ShowResponse response = ShowResponse.newBuilder()
-                .setValue(value)
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+        try {
+            ShowResponse response = ruler.showHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            ShowResponse response = ShowResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
     }
 
     @Override
     public void destroy(DestroyRequest request, StreamObserver<DestroyResponse> responseObserver) {
-        super.destroy(request, responseObserver);
+        try {
+            DestroyResponse response = ruler.destroyHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            DestroyResponse response = DestroyResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
     }
 
     @Override
     public void destroyByVersion(DestroyByVersionRequest request, StreamObserver<DestroyByVersionResponse> responseObserver) {
-        super.destroyByVersion(request, responseObserver);
+        try {
+            DestroyByVersionResponse response = ruler.destroyByVersionHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            DestroyByVersionResponse response = DestroyByVersionResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
     }
 
     @Override
     public void testAndSet(TestAndSetRequest request, StreamObserver<TestAndSetResponse> responseObserver) {
-        super.testAndSet(request, responseObserver);
+        try {
+            TestAndSetResponse response = ruler.testAndSetHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            TestAndSetResponse response = TestAndSetResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
     }
 
 }
