@@ -35,14 +35,18 @@ public class WorkerShow implements Callable<ShowResponse> {
 
     @Override
     public ShowResponse call() throws Exception {
-        System.out.println("Rodei");
         Value value = this.hashMap.get(request.getKey());
-        ShowResponse response = ShowResponse.newBuilder()
-                .setStatus("SUCCESS")
-                .setValue(value)
-                .build();
+        Key key = request.getKey();
 
-        //TODO: Tem que retornar uma resposta com ERROR se o valor não existir na hashTable
-        return response;
+        if (!hashMap.containsKey(key)) {
+            return ShowResponse.newBuilder()
+                .setStatus("Error")
+                .build();
+        }
+
+        return ShowResponse.newBuilder()
+            .setStatus("SUCCESS")
+            .setValue(value)
+            .build();
     }
 }

@@ -26,13 +26,6 @@ public class APICalls {
 
         System.out.println(response);
 
-        if (request.getKeyValue().getValue() == null) {
-            System.out.println("Okay");
-        }
-        else {
-            System.out.println("Null com problemas");
-        }
-
         channel.shutdown();
 
         return response;
