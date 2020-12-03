@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class BaiacuServer {
     private Ruler ruler;
-    private static final int PORT = 50054;
+    private static final int PORT = 50051;
     private Server server;
 
     public BaiacuServer() {

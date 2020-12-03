@@ -16,55 +16,81 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
 
     @Override
     public void store(StoreRequest request, StreamObserver<StoreResponse> responseObserver) {
-        Key key = request.getKeyValue().getKey();
-        Value value = request.getKeyValue().getValue();
+        try{
+            StoreResponse response = ruler.storeHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e){
+            StoreResponse response = StoreResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
 
-        StoreResponse response = StoreResponse.newBuilder()
-                .setStatus("SUCESS")
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
     }
 
     @Override
     public void show(ShowRequest request, StreamObserver<ShowResponse> responseObserver) {
-        Key key = request.getKey();
-        System.out.println("Cheguei");
         try {
             ShowResponse response = ruler.showHandler(request);
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } catch (Exception e) {
-            System.out.println("Deu ruim na show");
+            ShowResponse response = ShowResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
         }
-        System.out.println("Sai");
-
     }
 
     @Override
     public void destroy(DestroyRequest request, StreamObserver<DestroyResponse> responseObserver) {
-        Key key = request.getKey();
+        try {
+            DestroyResponse response = ruler.destroyHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            DestroyResponse response = DestroyResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
 
-        super.destroy(request, responseObserver);
-
-        DestroyResponse response = DestroyResponse.newBuilder()
-//           Todo .setValue()
-            .setStatus("SUCCESS")
-            .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
     }
 
     @Override
     public void destroyByVersion(DestroyByVersionRequest request, StreamObserver<DestroyByVersionResponse> responseObserver) {
-        super.destroyByVersion(request, responseObserver);
+        try {
+            DestroyByVersionResponse response = ruler.destroyByVersionHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            DestroyByVersionResponse response = DestroyByVersionResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
     }
 
     @Override
     public void testAndSet(TestAndSetRequest request, StreamObserver<TestAndSetResponse> responseObserver) {
-        super.testAndSet(request, responseObserver);
+        try {
+            TestAndSetResponse response = ruler.testAndSetHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            TestAndSetResponse response = TestAndSetResponse.newBuilder()
+                    .setStatus("erro inesperado")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
     }
 
 }
