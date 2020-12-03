@@ -26,7 +26,6 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
-
     }
 
     @Override
