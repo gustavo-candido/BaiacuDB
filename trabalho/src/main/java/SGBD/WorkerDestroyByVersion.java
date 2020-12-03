@@ -2,6 +2,7 @@ package SGBD;
 
 import com.proto.baiacu.*;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
 
@@ -31,17 +32,31 @@ public class WorkerDestroyByVersion implements Callable<DestroyByVersionResponse
         this.request = request;
     }
 
+//    TODO null
     @Override
     public DestroyByVersionResponse call() throws Exception {
-        Value value = this.hashMap.remove(this.request.getKey());
-        DestroyByVersionResponse response = DestroyByVersionResponse.newBuilder()
-                .setValue(value)
-                .setStatus("SUCCESS")
+        Key key = request.getKey();
+
+        if ( !hashMap.containsKey(key)) {
+            return  DestroyByVersionResponse.newBuilder()
+                .setStatus("ERROR_NE")
                 .build();
+        }
 
-        //TODO: Tem que retornar uma resposta com ERROR_NE se o valor não existir para deleção
-        //TODO: retornar ERROR_NW se já tem uma entrada no banco com essa chave mas não com a versão em request
+        Value value = hashMap.get(key);
+        long version = value.getVersion();
 
-        return response;
+        if (version != request.getVersion()) {
+            return  DestroyByVersionResponse.newBuilder()
+                .setStatus("ERROR_WV")
+                .build();
+        }
+
+        hashMap.remove(key);
+
+        return DestroyByVersionResponse.newBuilder()
+            .setStatus("SUCCESS")
+            .setValue(value)
+            .build();
     }
 }
