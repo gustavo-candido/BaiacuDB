@@ -5,8 +5,10 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 public class APICalls {
+    private int PORT = 50051;
+
     public StoreResponse storeCall(Key key, Value value){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50054)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",PORT)
                 .usePlaintext()
                 .build();
 
@@ -27,7 +29,7 @@ public class APICalls {
     }
 
     public ShowResponse showCall(Key key) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50054)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",PORT)
                 .usePlaintext()
                 .build();
 
