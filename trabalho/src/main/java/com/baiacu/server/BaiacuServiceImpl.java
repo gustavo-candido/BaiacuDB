@@ -1,18 +1,16 @@
 package com.baiacu.server;
 
-import com.baiacu.storage.BaiacuStorage;
-import com.baiacu.storage.Exception.StorageException;
+import SGBD.Ruler;
 import com.proto.baiacu.*;
 import io.grpc.stub.StreamObserver;
-import java.util.HashMap;
-
+import java.util.concurrent.ExecutionException;
 
 
 public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  {
-    private BaiacuStorage storage;
+    private Ruler ruler;
 
-    public BaiacuServiceImpl(BaiacuStorage storage) {
-        this.storage = storage;
+    public BaiacuServiceImpl(Ruler ruler) {
+        this.ruler = ruler;
     }
 
 
@@ -20,8 +18,6 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
     public void store(StoreRequest request, StreamObserver<StoreResponse> responseObserver) {
         Key key = request.getKeyValue().getKey();
         Value value = request.getKeyValue().getValue();
-
-        storage.setValue(key, value);
 
         StoreResponse response = StoreResponse.newBuilder()
                 .setStatus("SUCESS")
@@ -34,20 +30,31 @@ public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  
     @Override
     public void show(ShowRequest request, StreamObserver<ShowResponse> responseObserver) {
         Key key = request.getKey();
-        Value value = storage.getValue(key);
+        System.out.println("Cheguei");
+        try {
+            ShowResponse response = ruler.showHandler(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            System.out.println("Deu ruim na show");
+        }
+        System.out.println("Sai");
 
-        ShowResponse response = ShowResponse.newBuilder()
-                .setValue(value)
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
     }
 
     @Override
     public void destroy(DestroyRequest request, StreamObserver<DestroyResponse> responseObserver) {
-        // candido teste de branch
+        Key key = request.getKey();
+
         super.destroy(request, responseObserver);
+
+        DestroyResponse response = DestroyResponse.newBuilder()
+//           Todo .setValue()
+            .setStatus("SUCCESS")
+            .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
