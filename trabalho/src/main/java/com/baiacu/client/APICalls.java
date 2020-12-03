@@ -23,6 +23,16 @@ public class APICalls {
         StoreRequest request = StoreRequest.newBuilder().setKeyValue(keyValue).build();
 
         StoreResponse response = client.store(request);
+
+        System.out.println(response);
+
+        if (request.getKeyValue().getValue() == null) {
+            System.out.println("Okay");
+        }
+        else {
+            System.out.println("Null com problemas");
+        }
+
         channel.shutdown();
 
         return response;

@@ -32,10 +32,9 @@ public class BaiacuClient {
 
             switch(chosenCall){
                 case 1:
-                     value  = Value.newBuilder()
+                     value  = Value.newBuilder() // versão é setada apenas pelo servidor
                             .setData(ByteString.copyFromUtf8("testreee carai"))
                             .setTimestamp(12345)
-                            .setVersion(1)
                             .build();
 
                      key = Key.newBuilder().setKey("123456789").build();
