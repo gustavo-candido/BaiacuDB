@@ -22,15 +22,24 @@ public class WorkerDestroy implements Callable<DestroyResponse> {
         this.request = request;
     }
 
+//    TODO: null
     @Override
     public DestroyResponse call() throws Exception {
-        Value value = this.hashMap.remove(this.request.getKey());
-        DestroyResponse response = DestroyResponse.newBuilder()
-                .setValue(value)
-                .setStatus("SUCCESS")
-                .build();
+        Key key = request.getKey();
 
-        //TODO: Tem que retornar uma resposta com ERROR se o valor não existir para deleção
-        return response;
+        if (!hashMap.containsKey(key)) {
+            return  DestroyResponse.newBuilder()
+                .setStatus("ERROR")
+                .build();
+        }
+
+        Value value = hashMap.get(key);
+
+        hashMap.remove(key);
+
+        return DestroyResponse.newBuilder()
+            .setStatus("SUCCESS")
+            .setValue(value)
+            .build();
     }
 }
