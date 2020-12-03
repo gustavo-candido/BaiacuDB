@@ -27,7 +27,7 @@ public class WorkerDestroy implements Callable<DestroyResponse> {
     public DestroyResponse call() throws Exception {
         Key key = request.getKey();
 
-        if ( !hashMap.containsKey(key)) {
+        if (!hashMap.containsKey(key)) {
             return  DestroyResponse.newBuilder()
                 .setStatus("ERROR")
                 .build();

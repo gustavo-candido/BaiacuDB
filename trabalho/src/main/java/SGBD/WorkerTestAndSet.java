@@ -33,13 +33,37 @@ public class WorkerTestAndSet implements Callable<TestAndSetResponse> {
 
     @Override
     public TestAndSetResponse call() throws Exception {
-        TestAndSetResponse response = TestAndSetResponse.newBuilder()
-                .setStatus("SUCCESS")
+        Key key = request.getKeyValue().getKey();
+
+        if (!hashMap.containsKey(key)) {
+            return  TestAndSetResponse.newBuilder()
+                .setStatus("ERROR_NE")
                 .build();
+        }
 
-        //TODO: Tem que retornar uma resposta com ERROR_NE se o valor não existir para deleção
-        //TODO: retornar ERROR_NW se já tem uma entrada no banco com essa chave mas não com a versão em request
+        Value dbValue = hashMap.get(key);
+        Value reqValue = request.getKeyValue().getValue();
 
-        return response;
+        long version = dbValue.getVersion();
+
+        if (version != request.getVersion()) {
+            return  TestAndSetResponse.newBuilder()
+                .setStatus("ERROR_WV")
+                .setValue(hashMap.get(key))
+                .build();
+        }
+
+        Value updatedValue = Value.newBuilder()
+            .setTimestamp(reqValue.getTimestamp())
+            .setData(reqValue.getData())
+            .setVersion(dbValue.getVersion() + 1)
+            .build();
+
+        hashMap.put(key, updatedValue);
+
+        return TestAndSetResponse.newBuilder()
+            .setStatus("SUCCESS")
+            .setValue(updatedValue)
+            .build();
     }
 }

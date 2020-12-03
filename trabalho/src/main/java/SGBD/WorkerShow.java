@@ -40,7 +40,7 @@ public class WorkerShow implements Callable<ShowResponse> {
 
         if (!hashMap.containsKey(key)) {
             return ShowResponse.newBuilder()
-                .setStatus("Error")
+                .setStatus("ERROR")
                 .build();
         }
 

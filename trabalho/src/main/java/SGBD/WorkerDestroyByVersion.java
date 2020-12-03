@@ -37,7 +37,7 @@ public class WorkerDestroyByVersion implements Callable<DestroyByVersionResponse
     public DestroyByVersionResponse call() throws Exception {
         Key key = request.getKey();
 
-        if ( !hashMap.containsKey(key)) {
+        if (!hashMap.containsKey(key)) {
             return  DestroyByVersionResponse.newBuilder()
                 .setStatus("ERROR_NE")
                 .build();
