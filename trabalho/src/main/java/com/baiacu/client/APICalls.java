@@ -26,14 +26,7 @@ public class APICalls {
 
         StoreRequest request = StoreRequest.newBuilder().setKeyValue(keyValue).build();
         StoreResponse response = this.client.store(request);
-
-        StoreResponse response = client.store(request);
-
         System.out.println(response);
-
-        channel.shutdown();
-
-
         return response;
     }
 
