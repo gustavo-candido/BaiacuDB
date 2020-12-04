@@ -1,14 +1,17 @@
 import com.baiacu.client.APICalls;
 import com.baiacu.client.BaiacuClient;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.ByteString;
-import com.proto.baiacu.Key;
-import com.proto.baiacu.ShowResponse;
-import com.proto.baiacu.StoreResponse;
-import com.proto.baiacu.Value;
+import com.proto.baiacu.*;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.ExecutionException;
 
 public class APITests {
     private APICalls api;
@@ -22,7 +25,6 @@ public class APITests {
     @Nested
     @DisplayName("testes dos casos de set(k,ts,d):(e,v')")
     class StoreTests {
-
         @Test
         @DisplayName("Deveria retornar SUCCESS ao guardar valor")
         void shouldStoreValue() {
@@ -149,41 +151,99 @@ public class APITests {
             void shoulNotdDeleteValue2() {
             }
         }
+    }
 
-        @Nested
-        @DisplayName("testes dos casos de testAndSet(k,v,vers):(e,v')")
-        class testAndSetTests {
-            @Test
-            @DisplayName("Deveria retornar SUCCESS e o valor da chave " +
-                    ", indicando que a chave no mapa existia e teve seu valor atualizado")
-            void shouldTestAndSet() {
-
-
-            }
-
-            @Test
-            @DisplayName("Deveria retornar ERROR_NE se o valor da chave " +
-                    "não exisitia no banco de dados")
-            void shouldNotTestAndSet() {
+    @Nested
+    @DisplayName("testes dos casos de testAndSet(k,v,vers):(e,v')")
+    class testAndSetTests {
+        @Test
+        @DisplayName("Deveria retornar SUCCESS e o valor da chave " +
+                ", indicando que a chave no mapa existia e teve seu valor atualizado")
+        void shouldTestAndSet() {
 
 
-            }
+        }
 
-            @Test
-            @DisplayName("Deveria retornar ERROR_WV se o valor da chave " +
-                    "já existia no banco de dados mas sem a ver")
-            void shouldNotTestAndSet2() {
-
-
-            }
-
-
-
+        @Test
+        @DisplayName("Deveria retornar ERROR_NE se o valor da chave " +
+                "não exisitia no banco de dados")
+        void shouldNotTestAndSet() {
 
 
         }
 
 
+        @Test
+        @DisplayName("Deveria retornar ERROR_WV se o valor da chave " +
+                "já existia no banco de dados mas sem a versão especificada")
+        void shouldNotTestAndSet2() {
+
+
+        }
+    }
+
+
+    @Test
+    @DisplayName("testa se dois store assíncronos vão sobrescrever um campo")
+    void shouldNotOverwriteBytes() throws ExecutionException, InterruptedException {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50051)
+                .usePlaintext()
+                .build();
+
+        BaiacuServiceGrpc.BaiacuServiceFutureStub client =  BaiacuServiceGrpc.newFutureStub(channel);
+
+        //criar uma string bem grande de letras "a"
+        StringBuilder testA = new StringBuilder();
+        for (int i = 0; i < 100000 ; i++) {
+            testA.append("a");
+        }
+
+
+        //criar uma string bem grande de letras "b"
+        StringBuilder testB = new StringBuilder();
+        for (int i = 0; i < 100000 ; i++) {
+            testB.append("b");
+        }
+
+
+        //constrói a requisição
+        Key key = Key.newBuilder().setKey("1").build();
+
+        Value valueA  = Value.newBuilder()
+                .setData(ByteString.copyFromUtf8(testA.toString()))
+                .setTimestamp(12345)
+                .setVersion(1)
+                .build();
+
+        Value valueB  = Value.newBuilder()
+                .setData(ByteString.copyFromUtf8(testB.toString()))
+                .setTimestamp(123456)
+                .setVersion(2)
+                .build();
+        ;
+
+        KeyValue keyValueA = KeyValue.newBuilder()
+                .setKey(key)
+                .setValue(valueA)
+                .build();
+
+        KeyValue keyValueB = KeyValue.newBuilder()
+                .setKey(key)
+                .setValue(valueB)
+                .build();
+
+        StoreRequest requestA = StoreRequest.newBuilder().setKeyValue(keyValueA).build();
+        ListenableFuture<StoreResponse> responseA = client.store(requestA);
+
+        StoreRequest requestB = StoreRequest.newBuilder().setKeyValue(keyValueB).build();
+        ListenableFuture<StoreResponse> responseB = client.store(requestB);
+
+        ShowRequest requestC = ShowRequest.newBuilder().setKey(key).build();
+        ListenableFuture<ShowResponse> responseC = client.show(requestC);
+
+
+        Assertions.assertEquals(responseC.get().getValue().getData(), responseB.get().getValue().getData());
+        channel.shutdown();
 
     }
 }

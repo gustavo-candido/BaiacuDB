@@ -11,12 +11,14 @@ public class APICalls {
 
     public APICalls() {
         this.channel = ManagedChannelBuilder.forAddress("localhost",PORT)
+
                 .usePlaintext()
                 .build();
          this.client = BaiacuServiceGrpc.newBlockingStub(channel);
     }
 
     public StoreResponse storeCall(Key key, Value value){
+
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
                 .setValue(value)
@@ -24,10 +26,23 @@ public class APICalls {
 
         StoreRequest request = StoreRequest.newBuilder().setKeyValue(keyValue).build();
         StoreResponse response = this.client.store(request);
+
+        StoreResponse response = client.store(request);
+
+        System.out.println(response);
+
+        channel.shutdown();
+
+
         return response;
     }
 
     public ShowResponse showCall(Key key) {
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",PORT)
+                .usePlaintext()
+                .build();
+      
         ShowRequest request = ShowRequest.newBuilder().setKey(key).build();
         ShowResponse response = this.client.show(request);
         return response;
@@ -44,6 +59,7 @@ public class APICalls {
         TestAndSetResponse response = this.client.testAndSet(request);
         return response;
     }
+
 
     public DestroyResponse destroyCall(Key key) {
         DestroyRequest request = DestroyRequest.newBuilder().setKey(key).build();
