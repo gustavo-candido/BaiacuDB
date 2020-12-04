@@ -5,7 +5,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 public class APICalls {
-    private int PORT = 50054;
+    private int PORT = 50051;
     private ManagedChannel channel;
     private BaiacuServiceGrpc.BaiacuServiceBlockingStub client;
 
