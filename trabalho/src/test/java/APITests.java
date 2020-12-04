@@ -171,7 +171,7 @@ public class APITests {
 
             @Test
             @DisplayName("Deveria retornar ERROR_WV se o valor da chave " +
-                    "já existia no banco de dados mas sem a versão especificada")
+                    "já existia no banco de dados mas sem a ver")
             void shouldNotTestAndSet2() {
 
 
