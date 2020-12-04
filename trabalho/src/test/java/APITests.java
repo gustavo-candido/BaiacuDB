@@ -292,8 +292,8 @@ public class APITests {
         StoreRequest requestB = StoreRequest.newBuilder().setKeyValue(keyValueB).build();
         ListenableFuture<StoreResponse> responseB = client.store(requestB);
 
-        System.out.println(requestA);
-        System.out.println(requestB);
+        System.out.println(responseA.get());
+        System.out.println(responseB.get());
 
         Assertions.assertEquals(responseB.get().getValue().getData(), responseB.get().getValue().getData());
         channel.shutdown();

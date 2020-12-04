@@ -18,7 +18,7 @@ public class BaiacuServer {
     }
 
     public void start() throws IOException {
-        ExecutorService executor = Executors.newFixedThreadPool(16);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
 
         server = ServerBuilder.forPort(PORT)
                 .addService( new BaiacuServiceImpl(ruler))
