@@ -36,6 +36,7 @@ public class WorkerShow implements Callable<ShowResponse> {
 
     @Override
     public ShowResponse call() throws Exception {
+        TimeUnit.SECONDS.sleep(20);
         Value value = this.hashMap.get(request.getKey());
         Key key = request.getKey();
 

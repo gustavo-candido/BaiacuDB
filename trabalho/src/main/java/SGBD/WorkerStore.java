@@ -38,7 +38,6 @@ public class WorkerStore implements Callable<StoreResponse> {
 
     @Override
     public StoreResponse call() throws Exception {
-        TimeUnit.SECONDS.sleep(20);
         Key key = request.getKeyValue().getKey();
 
         // já existe key
