@@ -4,6 +4,7 @@ import com.proto.baiacu.*;
 
 import java.util.HashMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 public class WorkerStore implements Callable<StoreResponse> {
     private HashMap<Key, Value> hashMap;
@@ -37,6 +38,7 @@ public class WorkerStore implements Callable<StoreResponse> {
 
     @Override
     public StoreResponse call() throws Exception {
+        TimeUnit.SECONDS.sleep(20);
         Key key = request.getKeyValue().getKey();
 
         // já existe key

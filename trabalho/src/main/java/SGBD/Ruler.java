@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Ruler {
-    private int MAX_T = 1;
+    private int MAX_T = 3;
     private HashMap<Key, Value> data = new HashMap<>();
     private ExecutorService pool = Executors.newFixedThreadPool(MAX_T);
 
@@ -26,8 +26,6 @@ public class Ruler {
     }
 
     public StoreResponse storeHandler(StoreRequest request) throws InterruptedException {
-//        System.out.println(request);
-//        TimeUnit.SECONDS.sleep(20);
         Future<StoreResponse> submit = pool.submit(new WorkerStore(data, request));
         try {
             return submit.get();
@@ -39,7 +37,6 @@ public class Ruler {
 
     public ShowResponse showHandler(ShowRequest request)
         throws ExecutionException, InterruptedException {
-//        TimeUnit.SECONDS.sleep(20);
         Future<ShowResponse> submit = pool.submit(new WorkerShow(data, request));
         try {
             return submit.get();
@@ -47,8 +44,6 @@ public class Ruler {
             e.printStackTrace();
             return null;
         }
-
-
     }
 
     public DestroyResponse destroyHandler(DestroyRequest request) throws ExecutionException {
