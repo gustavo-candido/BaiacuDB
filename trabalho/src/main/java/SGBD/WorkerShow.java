@@ -6,6 +6,7 @@ import com.proto.baiacu.ShowResponse;
 import com.proto.baiacu.Value;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 public class WorkerShow implements Callable<ShowResponse> {
     private HashMap<Key, Value> hashMap;
@@ -35,6 +36,7 @@ public class WorkerShow implements Callable<ShowResponse> {
 
     @Override
     public ShowResponse call() throws Exception {
+        TimeUnit.SECONDS.sleep(20);
         Value value = this.hashMap.get(request.getKey());
         Key key = request.getKey();
 
