@@ -38,8 +38,6 @@ public class WorkerShow implements Callable<ShowResponse> {
         Value value = this.hashMap.get(request.getKey());
         Key key = request.getKey();
 
-        System.out.println("klsadjaslkjd " + System.nanoTime());
-
         if (!hashMap.containsKey(key)) {
             return ShowResponse.newBuilder()
                 .setStatus("ERROR")

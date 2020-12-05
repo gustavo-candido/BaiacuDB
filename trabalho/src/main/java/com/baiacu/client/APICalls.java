@@ -11,7 +11,6 @@ public class APICalls {
 
     public APICalls() {
         this.channel = ManagedChannelBuilder.forAddress("localhost",PORT)
-
                 .usePlaintext()
                 .build();
          this.client = BaiacuServiceGrpc.newBlockingStub(channel);
@@ -26,7 +25,6 @@ public class APICalls {
 
         StoreRequest request = StoreRequest.newBuilder().setKeyValue(keyValue).build();
         StoreResponse response = this.client.store(request);
-        System.out.println(response);
         return response;
     }
 
@@ -57,7 +55,6 @@ public class APICalls {
     public DestroyResponse destroyCall(Key key) {
         DestroyRequest request = DestroyRequest.newBuilder().setKey(key).build();
         DestroyResponse response = this.client.destroy(request);
-        System.out.println(response);
         return response;
     }
 
@@ -67,7 +64,6 @@ public class APICalls {
                 .setVersion(version)
                 .build();
         DestroyByVersionResponse response = this.client.destroyByVersion(request);
-        System.out.println(response);
         return response;
     }
 

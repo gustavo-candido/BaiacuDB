@@ -39,7 +39,7 @@ public class Ruler {
 
     public ShowResponse showHandler(ShowRequest request)
         throws ExecutionException, InterruptedException {
-        TimeUnit.SECONDS.sleep(20);
+//        TimeUnit.SECONDS.sleep(20);
         Future<ShowResponse> submit = pool.submit(new WorkerShow(data, request));
         try {
             return submit.get();
@@ -75,6 +75,7 @@ public class Ruler {
 
     public TestAndSetResponse testAndSetHandler(TestAndSetRequest request) {
         Future<TestAndSetResponse> submit = pool.submit(new WorkerTestAndSet(data, request));
+
         try {
             return submit.get();
         } catch (InterruptedException | ExecutionException e) {

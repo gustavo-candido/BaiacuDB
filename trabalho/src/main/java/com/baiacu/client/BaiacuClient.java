@@ -17,8 +17,8 @@ public class BaiacuClient {
             System.out.println("1- Requisição de store");
             System.out.println("2- Requisição de Show");
             System.out.println("3- Requisição de Destroy");
-            System.out.println("3- Requisição de DestroyByVersion");
-            System.out.println("4- Requisição de testAbdSet");
+            System.out.println("4- Requisição de DestroyByVersion");
+            System.out.println("5- Requisição de testAndSet");
             System.out.println("6- Sair");
 
             if(scanchoice.hasNextInt())
@@ -33,12 +33,16 @@ public class BaiacuClient {
                     break;
                 case 3:
                     destroyHandler();
+                    break;
                 case 4:
                     destroyByVersionHandler();
+                    break;
                 case 5:
                     testAndSetHandler();
+                    break;
                 case 6:
                     System.exit(0);
+                    break;
             }
         }
     }
@@ -49,14 +53,14 @@ public class BaiacuClient {
         String keyString;
 
         do {
-            System.out.println("Escreva a chave que você quer observar o dado:");
+            System.out.println("Escreva a chave que você quer destruir:");
             keyString = scanchoice.nextLine();
         }
         while(!onlyDigits(keyString));
 
         Key key = Key.newBuilder().setKey(keyString).build();
 
-        ShowResponse response = apiCalls.showCall(key);
+        DestroyResponse response = apiCalls.destroyCall(key);
         System.out.println(response);
     }
 
@@ -66,7 +70,7 @@ public class BaiacuClient {
         String keyString;
 
         do {
-            System.out.println("Escreva a chave que você quer observar o dado:");
+            System.out.println("Escreva a chave que você quer destruir:");
             keyString = scanchoice.nextLine();
         }
         while(!onlyDigits(keyString));
@@ -111,10 +115,10 @@ public class BaiacuClient {
 
         Key key = Key.newBuilder().setKey(keyString).build();
 
-        System.out.println("Escreva o dado que você quer amrazenar:");
+        System.out.println("Escreva o dado que você quer armazenar:");
         String data = scanchoice.nextLine();
 
-        System.out.println("Escreva a versão do dado que você quer destruir:");
+        System.out.println("Escreva a versão do dado que você quer atualizar:");
         int version = scanchoice.nextInt();
 
         Value value = Value.newBuilder()
