@@ -58,7 +58,7 @@ public class APICalls {
         return response;
     }
 
-    public DestroyByVersionResponse destroyByVersionCall(Key key, int version) {
+    public DestroyByVersionResponse destroyByVersionCall(Key key, long version) {
         DestroyByVersionRequest request = DestroyByVersionRequest.newBuilder()
                 .setKey(key)
                 .setVersion(version)

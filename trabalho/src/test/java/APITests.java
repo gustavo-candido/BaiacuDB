@@ -18,19 +18,32 @@ import java.util.concurrent.ExecutionException;
 
 public class APITests {
     private APICalls api;
-    private List<Key> StoredKeyArray = new ArrayList<Key>();
+    private List<KeyValue> StoredKeyArray = new ArrayList<KeyValue>();
 
 
     APITests() {
         api = new APICalls();
     }
 
-    private Key generateAndStoreKey(){
-        int keyString =  new Random().nextInt(9999999)+1;
+    private KeyValue generateAndStoreKV(){
+        long keyString =  new Random().nextInt(9999999)+1;
         Key key = Key.newBuilder().setKey(String.valueOf(keyString)).build();
-        this.StoredKeyArray.add(key);
-        return key;
+
+        Value value  = Value.newBuilder()
+                .setData(ByteString.copyFromUtf8("teste"))
+                .setTimestamp(System.currentTimeMillis() / 1000L)
+                .setVersion(new Random().nextInt(100)+1)
+                .build();
+
+        KeyValue keyValue = KeyValue.newBuilder()
+                .setKey(key)
+                .setValue(value)
+                .build();
+
+        StoredKeyArray.add(keyValue);
+        return keyValue;
     }
+
 
     @Nested
     @DisplayName("testes dos casos de set(k,ts,d):(e,v')")
@@ -38,31 +51,17 @@ public class APITests {
         @Test
         @DisplayName("Deveria retornar SUCCESS ao guardar valor")
         void shouldStoreValue() {
-            Key key = generateAndStoreKey();
-            Value value  = Value.newBuilder()
-                    .setData(ByteString.copyFromUtf8("teste"))
-                    .setTimestamp(12345)
-                    .setVersion(1)
-                    .build();
-
-            StoreResponse response = api.storeCall(key,value);
+            KeyValue kv = generateAndStoreKV();
+            StoreResponse response = api.storeCall(kv.getKey(),kv.getValue());
             Assertions.assertEquals("SUCCESS", response.getStatus());
         }
 
         @Test
         @DisplayName("Deveria retornar ERROR ao guardar valor igual ao que já existe naquela chave")
         void shouldErrorInStoreValue() {
-            Value value  = Value.newBuilder().build();
-            Key key = generateAndStoreKey();
-
-            value  = Value.newBuilder()
-                    .setData(ByteString.copyFromUtf8("teste"))
-                    .setTimestamp(12345)
-                    .setVersion(1)
-                    .build();
-
-            StoreResponse response = api.storeCall(key,value);
-            StoreResponse responseAgain = api.storeCall(key,value);
+            KeyValue kv = generateAndStoreKV();
+            api.storeCall(kv.getKey(),kv.getValue());
+            StoreResponse responseAgain = api.storeCall(kv.getKey(),kv.getValue());
             Assertions.assertEquals("ERROR", responseAgain.getStatus());
         }
 
@@ -75,19 +74,11 @@ public class APITests {
         @DisplayName("Deveria ser capaz de retornar um valor guardado anteriormente e retornar SUCCESS junto com" +
                 "o valor da chave respectiva")
         void ShouldGetValue() {
-            Value value  = Value.newBuilder().build();
-            Key key = generateAndStoreKey();
-
-            value  = Value.newBuilder()
-                    .setData(ByteString.copyFromUtf8("teste"))
-                    .setTimestamp(12345)
-                    .setVersion(1)
-                    .build();
-
-            StoreResponse storeResponse = api.storeCall(key,value);
+            KeyValue kv = generateAndStoreKV();
+            StoreResponse storeResponse = api.storeCall(kv.getKey(),kv.getValue());
             Assertions.assertEquals("SUCCESS", storeResponse.getStatus());
-            ShowResponse showResponse = api.showCall(key);
-            Assertions.assertEquals(value, showResponse.getValue());
+            ShowResponse showResponse = api.showCall(kv.getKey());
+            Assertions.assertEquals(kv.getValue(), showResponse.getValue());
             Assertions.assertNotNull(showResponse.getValue());
         }
 
@@ -95,81 +86,70 @@ public class APITests {
         @Test
         @DisplayName("Deveria retornar ERROR se não há entrada no banco com a chave dada")
         void shouldNotGetValue() {
-            Value value  = Value.newBuilder().build();
-            Key key = generateAndStoreKey();
-
-
-            value  = Value.newBuilder()
-                    .setData(ByteString.copyFromUtf8("teste"))
-                    .setTimestamp(12345)
-                    .setVersion(1)
-                    .build();
-
-            ShowResponse showResponse = api.showCall(key);
+            KeyValue kv = generateAndStoreKV();
+            ShowResponse showResponse = api.showCall(kv.getKey());
             Assertions.assertEquals("ERROR", showResponse.getStatus());
             Assertions.assertEquals(0,showResponse.getValue().getData().size());
         }
 
+    }
 
-        @Nested
-        @DisplayName("testes dos casos de del(k):(e,v')")
-        class deleteTests {
+    @Nested
+    @DisplayName("testes dos casos de del(k):(e,v')")
+    class deleteTests {
 
-            @Test
-            @DisplayName("Deveria remover a entrada k-v' se ela existir, retornando SUCCESS e o valor " +
-                    "da chave removida")
-            void shouldDeleteValue() {
-                Value value  = Value.newBuilder().build();
-                Key key = generateAndStoreKey();
-
-
-                value  = Value.newBuilder()
-                        .setData(ByteString.copyFromUtf8("teste"))
-                        .setTimestamp(12345)
-                        .setVersion(1)
-                        .build();
-
-                StoreResponse storeResponse = api.storeCall(key,value);
-                ShowResponse showResponse = api.showCall(key);
-                Assertions.assertEquals("ERROR", showResponse.getStatus());
-
-            }
-
-            @Test
-            @DisplayName("Deveria retornar ERROR e um valor nulo, se não existe entrada no banco com a dada chave")
-            void shouldNotDeleteValue() {
-
-            }
-
-
+        @Test
+        @DisplayName("Deveria remover a entrada k-v' se ela existir, retornando SUCCESS e o valor " +
+                "da chave removida")
+        void shouldDeleteValue() {
+            KeyValue kv = generateAndStoreKV();
+            api.storeCall(kv.getKey(),kv.getValue());
+            DestroyResponse destroyResponse = api.destroyCall(kv.getKey());
+            Assertions.assertEquals("SUCCESS", destroyResponse.getStatus());
         }
 
-        @Nested
-        @DisplayName("testes dos casos de del(k,vers):(e,v')")
-        class deleteByVersionTests {
-            @Test
-            @DisplayName("Deveria remover a entrada k-v'se ela existir e tiver a versão específicada, retornando " +
-                    "retornando SUCCESS e a chave removida")
-            void shouldDeleteValue() {
-
-
-            }
-
-            @Test
-            @DisplayName("Deveria retornar ERROR_NE e valor NULL se não existe entrada com a chave especificada" +
-                    " no banco de dados ")
-            void shoulNotdDeleteValue() {
-
-
-            }
-
-            @Test
-            @DisplayName("Deveria retornar ERROR_WV e valor NULL se existe uma entrada com a chave especificada" +
-                    " no banco de dados mas ela não tem a versão requisitada")
-            void shoulNotdDeleteValue2() {
-            }
+        @Test
+        @DisplayName("Deveria retornar ERROR e um valor nulo, se não existe entrada no banco com a dada chave")
+        void shouldNotDeleteValue() {
+            KeyValue kv = generateAndStoreKV();
+            DestroyResponse destroyResponse =  api.destroyCall(kv.getKey());
+            Assertions.assertEquals("ERROR", destroyResponse.getStatus());
         }
     }
+
+    @Nested
+    @DisplayName("testes dos casos de del(k,vers):(e,v')")
+    class deleteByVersionTests {
+        @Test
+        @DisplayName("Deveria remover a entrada k-v'se ela existir e tiver a versão específicada, retornando " +
+                "retornando SUCCESS e a chave removida")
+        void shouldDeleteValueByVersion() {
+            KeyValue kv = generateAndStoreKV();
+            api.storeCall(kv.getKey(),kv.getValue());
+            DestroyByVersionResponse destroyResponse = api.destroyByVersionCall(kv.getKey(), kv.getValue().getVersion());
+            Assertions.assertEquals("SUCCESS", destroyResponse.getStatus());
+        }
+
+        @Test
+        @DisplayName("Deveria retornar ERROR_NE e valor NULL se não existe entrada com a chave especificada" +
+                " no banco de dados ")
+        void shoulNotdDeleteValueByVersionNE() {
+            KeyValue kv = generateAndStoreKV();
+            DestroyByVersionResponse destroyResponse = api.destroyByVersionCall(kv.getKey(), kv.getValue().getVersion());
+            Assertions.assertEquals("ERROR_NE", destroyResponse.getStatus());
+        }
+
+        @Test
+        @DisplayName("Deveria retornar ERROR_WV e valor NULL se existe uma entrada com a chave especificada" +
+                " no banco de dados mas ela não tem a versão requisitada")
+        void shoulNotdDeleteValueByVersionWV() {
+            KeyValue kv = generateAndStoreKV();
+            api.storeCall(kv.getKey(),kv.getValue());
+            DestroyByVersionResponse destroyResponse = api.destroyByVersionCall(kv.getKey(), kv.getValue().getVersion()-1);
+            Assertions.assertEquals("ERROR_WV", destroyResponse.getStatus());
+        }
+    }
+
 
     @Nested
     @DisplayName("testes dos casos de testAndSet(k,v,vers):(e,v')")
@@ -185,7 +165,7 @@ public class APITests {
         @Test
         @DisplayName("Deveria retornar ERROR_NE se o valor da chave " +
                 "não exisitia no banco de dados")
-        void shouldNotTestAndSet() {
+        void shouldNotTestAndSetNE() {
 
 
         }
@@ -194,7 +174,7 @@ public class APITests {
         @Test
         @DisplayName("Deveria retornar ERROR_WV se o valor da chave " +
                 "já existia no banco de dados mas sem a versão especificada")
-        void shouldNotTestAndSet2() {
+        void shouldNotTestAndSet2WV() {
 
 
         }
@@ -278,29 +258,8 @@ public class APITests {
 
 
         //constrói a requisição
-        Key keyA = generateAndStoreKey();
-        Key keyB = generateAndStoreKey();
-
-        Value valueA  = Value.newBuilder()
-            .setData(ByteString.copyFromUtf8(a))
-            .setTimestamp(12345)
-            .build();
-
-        Value valueB  = Value.newBuilder()
-            .setData(ByteString.copyFromUtf8(b))
-            .setTimestamp(123456)
-            .build();
-        ;
-
-        KeyValue keyValueA = KeyValue.newBuilder()
-            .setKey(keyA)
-            .setValue(valueA)
-            .build();
-
-        KeyValue keyValueB = KeyValue.newBuilder()
-            .setKey(keyB)
-            .setValue(valueB)
-            .build();
+        KeyValue keyValueA = generateAndStoreKV();
+        KeyValue keyValueB = generateAndStoreKV();
 
         StoreRequest requestA = StoreRequest.newBuilder().setKeyValue(keyValueA).build();
         ListenableFuture<StoreResponse> responseA = client.store(requestA);

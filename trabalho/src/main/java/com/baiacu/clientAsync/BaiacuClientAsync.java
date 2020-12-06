@@ -1,4 +1,4 @@
-package com.baiacu.client2;
+package com.baiacu.clientAsync;
 
 import com.google.protobuf.ByteString;
 import com.proto.baiacu.DestroyByVersionResponse;
@@ -9,11 +9,12 @@ import com.proto.baiacu.StoreResponse;
 import com.proto.baiacu.TestAndSetResponse;
 import com.proto.baiacu.Value;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BaiacuClient2 {
-    public static void main(String[] args) {
+public class BaiacuClientAsync {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         int chosenCall = 0;
         Scanner scanchoice = new Scanner(System.in);
@@ -52,8 +53,8 @@ public class BaiacuClient2 {
         }
     }
 
-    private static void destroyHandler() {
-        APICalls apiCalls = new APICalls();
+    private static void destroyHandler() throws ExecutionException, InterruptedException {
+        APICallsAsync apiCalls = new APICallsAsync();
         Scanner scanchoice = new Scanner(System.in);
         String keyString;
 
@@ -69,8 +70,8 @@ public class BaiacuClient2 {
         System.out.println(response);
     }
 
-    private static void destroyByVersionHandler() {
-        APICalls apiCalls = new APICalls();
+    private static void destroyByVersionHandler() throws ExecutionException, InterruptedException {
+        APICallsAsync apiCalls = new APICallsAsync();
         Scanner scanchoice = new Scanner(System.in);
         String keyString;
 
@@ -90,8 +91,8 @@ public class BaiacuClient2 {
     }
 
 
-    private static void showHandler() {
-        APICalls apiCalls = new APICalls();
+    private static void showHandler() throws ExecutionException, InterruptedException {
+        APICallsAsync apiCalls = new APICallsAsync();
         Scanner scanchoice = new Scanner(System.in);
         String keyString;
 
@@ -107,8 +108,8 @@ public class BaiacuClient2 {
         System.out.println(response);
     }
 
-    private static void testAndSetHandler() {
-        APICalls apiCalls = new APICalls();
+    private static void testAndSetHandler() throws ExecutionException, InterruptedException {
+        APICallsAsync apiCalls = new APICallsAsync();
         Scanner scanchoice = new Scanner(System.in);
         String keyString;
 
@@ -135,8 +136,8 @@ public class BaiacuClient2 {
         System.out.println(response);
     }
 
-    private static void storeHandler(){
-        APICalls apiCalls = new APICalls();
+    private static void storeHandler() throws ExecutionException, InterruptedException {
+        APICallsAsync apiCalls = new APICallsAsync();
         Scanner scanchoice = new Scanner(System.in);
         String keyString;
 

@@ -1,5 +1,6 @@
-package com.baiacu.client2;
+package com.baiacu.clientAsync;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.proto.baiacu.BaiacuServiceGrpc;
 import com.proto.baiacu.DestroyByVersionRequest;
 import com.proto.baiacu.DestroyByVersionResponse;
@@ -17,19 +18,21 @@ import com.proto.baiacu.Value;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-public class APICalls {
+import java.util.concurrent.ExecutionException;
+
+public class APICallsAsync {
     private int PORT = 50051;
     private ManagedChannel channel;
-    private BaiacuServiceGrpc.BaiacuServiceBlockingStub client;
+    private BaiacuServiceGrpc.BaiacuServiceFutureStub client;
 
-    public APICalls() {
+    public APICallsAsync() {
         this.channel = ManagedChannelBuilder.forAddress("localhost",PORT)
                 .usePlaintext()
                 .build();
-         this.client = BaiacuServiceGrpc.newBlockingStub(channel);
+         this.client = BaiacuServiceGrpc.newFutureStub(channel);
     }
 
-    public StoreResponse storeCall(Key key, Value value){
+    public StoreResponse storeCall(Key key, Value value) throws ExecutionException, InterruptedException {
 
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
@@ -37,22 +40,22 @@ public class APICalls {
                 .build();
 
         StoreRequest request = StoreRequest.newBuilder().setKeyValue(keyValue).build();
-        StoreResponse response = this.client.store(request);
-        return response;
+        ListenableFuture<StoreResponse> response = this.client.store(request);
+        return response.get();
     }
 
-    public ShowResponse showCall(Key key) {
+    public ShowResponse showCall(Key key) throws ExecutionException, InterruptedException {
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",PORT)
                 .usePlaintext()
                 .build();
       
         ShowRequest request = ShowRequest.newBuilder().setKey(key).build();
-        ShowResponse response = this.client.show(request);
-        return response;
+        ListenableFuture<ShowResponse> response = this.client.show(request);
+        return response.get();
     }
 
-    public TestAndSetResponse testAndSetCall(Key key, Value value, int version){
+    public TestAndSetResponse testAndSetCall(Key key, Value value, int version) throws ExecutionException, InterruptedException {
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
                 .setValue(value)
@@ -60,24 +63,24 @@ public class APICalls {
         TestAndSetRequest request = TestAndSetRequest.newBuilder().setKeyValue(keyValue)
                 .setVersion(version)
                 .build();
-        TestAndSetResponse response = this.client.testAndSet(request);
-        return response;
+        ListenableFuture<TestAndSetResponse> response = this.client.testAndSet(request);
+        return response.get();
     }
 
 
-    public DestroyResponse destroyCall(Key key) {
+    public DestroyResponse destroyCall(Key key) throws ExecutionException, InterruptedException {
         DestroyRequest request = DestroyRequest.newBuilder().setKey(key).build();
-        DestroyResponse response = this.client.destroy(request);
-        return response;
+        ListenableFuture<DestroyResponse> response = this.client.destroy(request);
+        return response.get();
     }
 
-    public DestroyByVersionResponse destroyByVersionCall(Key key, int version) {
+    public DestroyByVersionResponse destroyByVersionCall(Key key, long version) throws ExecutionException, InterruptedException {
         DestroyByVersionRequest request = DestroyByVersionRequest.newBuilder()
                 .setKey(key)
                 .setVersion(version)
                 .build();
-        DestroyByVersionResponse response = this.client.destroyByVersion(request);
-        return response;
+        ListenableFuture<DestroyByVersionResponse> response = this.client.destroyByVersion(request);
+        return response.get();
     }
 
 
