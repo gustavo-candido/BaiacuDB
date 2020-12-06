@@ -4,6 +4,8 @@ import SGBD.Ruler;
 import com.proto.baiacu.*;
 import io.grpc.stub.StreamObserver;
 
+import java.lang.reflect.Array;
+
 
 public class BaiacuServiceImpl extends BaiacuServiceGrpc.BaiacuServiceImplBase  {
     private Ruler ruler;

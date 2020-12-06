@@ -11,16 +11,26 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class APITests {
     private APICalls api;
+    private List<Key> StoredKeyArray = new ArrayList<Key>();
+
 
     APITests() {
         api = new APICalls();
     }
 
-
+    private Key generateAndStoreKey(){
+        int keyString =  new Random().nextInt(9999999)+1;
+        Key key = Key.newBuilder().setKey(String.valueOf(keyString)).build();
+        this.StoredKeyArray.add(key);
+        return key;
+    }
 
     @Nested
     @DisplayName("testes dos casos de set(k,ts,d):(e,v')")
@@ -28,16 +38,13 @@ public class APITests {
         @Test
         @DisplayName("Deveria retornar SUCCESS ao guardar valor")
         void shouldStoreValue() {
-            Value value  = Value.newBuilder().build();
-            Key key = Key.newBuilder().build();
-
-            value  = Value.newBuilder()
+            Key key = generateAndStoreKey();
+            Value value  = Value.newBuilder()
                     .setData(ByteString.copyFromUtf8("teste"))
                     .setTimestamp(12345)
                     .setVersion(1)
                     .build();
 
-            key = Key.newBuilder().setKey("1").build();
             StoreResponse response = api.storeCall(key,value);
             Assertions.assertEquals("SUCCESS", response.getStatus());
         }
@@ -46,7 +53,7 @@ public class APITests {
         @DisplayName("Deveria retornar ERROR ao guardar valor igual ao que já existe naquela chave")
         void shouldErrorInStoreValue() {
             Value value  = Value.newBuilder().build();
-            Key key = Key.newBuilder().build();
+            Key key = generateAndStoreKey();
 
             value  = Value.newBuilder()
                     .setData(ByteString.copyFromUtf8("teste"))
@@ -54,7 +61,6 @@ public class APITests {
                     .setVersion(1)
                     .build();
 
-            key = Key.newBuilder().setKey("2").build();
             StoreResponse response = api.storeCall(key,value);
             StoreResponse responseAgain = api.storeCall(key,value);
             Assertions.assertEquals("ERROR", responseAgain.getStatus());
@@ -65,13 +71,12 @@ public class APITests {
     @Nested
     @DisplayName("testes dos casos de get(k):(e,v')")
     class showTests {
-
         @Test
         @DisplayName("Deveria ser capaz de retornar um valor guardado anteriormente e retornar SUCCESS junto com" +
                 "o valor da chave respectiva")
         void ShouldGetValue() {
             Value value  = Value.newBuilder().build();
-            Key key = Key.newBuilder().build();
+            Key key = generateAndStoreKey();
 
             value  = Value.newBuilder()
                     .setData(ByteString.copyFromUtf8("teste"))
@@ -79,11 +84,11 @@ public class APITests {
                     .setVersion(1)
                     .build();
 
-            key = Key.newBuilder().setKey("2").build();
             StoreResponse storeResponse = api.storeCall(key,value);
             Assertions.assertEquals("SUCCESS", storeResponse.getStatus());
             ShowResponse showResponse = api.showCall(key);
             Assertions.assertEquals(value, showResponse.getValue());
+            Assertions.assertNotNull(showResponse.getValue());
         }
 
 
@@ -91,7 +96,8 @@ public class APITests {
         @DisplayName("Deveria retornar ERROR se não há entrada no banco com a chave dada")
         void shouldNotGetValue() {
             Value value  = Value.newBuilder().build();
-            Key key = Key.newBuilder().build();
+            Key key = generateAndStoreKey();
+
 
             value  = Value.newBuilder()
                     .setData(ByteString.copyFromUtf8("teste"))
@@ -99,11 +105,10 @@ public class APITests {
                     .setVersion(1)
                     .build();
 
-            key = Key.newBuilder().setKey("44513412351").build();
             ShowResponse showResponse = api.showCall(key);
             Assertions.assertEquals("ERROR", showResponse.getStatus());
+            Assertions.assertEquals(0,showResponse.getValue().getData().size());
         }
-
 
 
         @Nested
@@ -114,6 +119,19 @@ public class APITests {
             @DisplayName("Deveria remover a entrada k-v' se ela existir, retornando SUCCESS e o valor " +
                     "da chave removida")
             void shouldDeleteValue() {
+                Value value  = Value.newBuilder().build();
+                Key key = generateAndStoreKey();
+
+
+                value  = Value.newBuilder()
+                        .setData(ByteString.copyFromUtf8("teste"))
+                        .setTimestamp(12345)
+                        .setVersion(1)
+                        .build();
+
+                StoreResponse storeResponse = api.storeCall(key,value);
+                ShowResponse showResponse = api.showCall(key);
+                Assertions.assertEquals("ERROR", showResponse.getStatus());
 
             }
 
@@ -241,9 +259,8 @@ public class APITests {
         ShowRequest requestC = ShowRequest.newBuilder().setKey(key).build();
         ListenableFuture<ShowResponse> responseC = client.show(requestC);
 
-
         Assertions.assertEquals(responseC.get().getValue().getData(), responseB.get().getValue().getData());
         channel.shutdown();
-
     }
+
 }
