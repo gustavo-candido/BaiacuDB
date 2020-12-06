@@ -34,7 +34,6 @@ public class WorkerTestAndSet implements Callable<TestAndSetResponse> {
     @Override
     public TestAndSetResponse call() throws Exception {
         Key key = request.getKeyValue().getKey();
-
         if (!hashMap.containsKey(key)) {
             return  TestAndSetResponse.newBuilder()
                 .setStatus("ERROR_NE")

@@ -263,4 +263,56 @@ public class APITests {
         channel.shutdown();
     }
 
+    @Test
+    @DisplayName("testa se multithread funciona")
+    void isMultithread() throws ExecutionException, InterruptedException {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50051)
+            .usePlaintext()
+            .build();
+
+        BaiacuServiceGrpc.BaiacuServiceFutureStub client =  BaiacuServiceGrpc.newFutureStub(channel);
+
+        //criar uma string bem grande de letras "a"
+        String a = "A";
+        String b = "b";
+
+
+        //constrói a requisição
+        Key keyA = generateAndStoreKey();
+        Key keyB = generateAndStoreKey();
+
+        Value valueA  = Value.newBuilder()
+            .setData(ByteString.copyFromUtf8(a))
+            .setTimestamp(12345)
+            .build();
+
+        Value valueB  = Value.newBuilder()
+            .setData(ByteString.copyFromUtf8(b))
+            .setTimestamp(123456)
+            .build();
+        ;
+
+        KeyValue keyValueA = KeyValue.newBuilder()
+            .setKey(keyA)
+            .setValue(valueA)
+            .build();
+
+        KeyValue keyValueB = KeyValue.newBuilder()
+            .setKey(keyB)
+            .setValue(valueB)
+            .build();
+
+        StoreRequest requestA = StoreRequest.newBuilder().setKeyValue(keyValueA).build();
+        ListenableFuture<StoreResponse> responseA = client.store(requestA);
+
+        StoreRequest requestB = StoreRequest.newBuilder().setKeyValue(keyValueB).build();
+        ListenableFuture<StoreResponse> responseB = client.store(requestB);
+
+        System.out.println(responseA.get());
+        System.out.println(responseB.get());
+
+        Assertions.assertEquals(responseB.get().getValue().getData(), responseB.get().getValue().getData());
+        channel.shutdown();
+
+    }
 }

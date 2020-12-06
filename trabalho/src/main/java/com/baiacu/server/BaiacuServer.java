@@ -13,12 +13,12 @@ public class BaiacuServer {
     private static int PORT = 50051;
     private Server server;
 
-    public BaiacuServer() {
+    public BaiacuServer() throws IOException, ClassNotFoundException {
         this.ruler = new Ruler();
     }
 
     public void start() throws IOException {
-        ExecutorService executor = Executors.newFixedThreadPool(16);
+        ExecutorService executor = Executors.newFixedThreadPool(8);
 
         server = ServerBuilder.forPort(PORT)
                 .addService( new BaiacuServiceImpl(ruler))
@@ -35,7 +35,8 @@ public class BaiacuServer {
         server.awaitTermination();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args)
+        throws IOException, InterruptedException, ClassNotFoundException {
             BaiacuServer server = new BaiacuServer();
             server.start();
             server.blockUntilShutdown();

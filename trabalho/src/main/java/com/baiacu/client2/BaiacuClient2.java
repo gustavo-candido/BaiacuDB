@@ -1,13 +1,18 @@
-package com.baiacu.client;
+package com.baiacu.client2;
 
 import com.google.protobuf.ByteString;
-import com.proto.baiacu.*;
-
+import com.proto.baiacu.DestroyByVersionResponse;
+import com.proto.baiacu.DestroyResponse;
+import com.proto.baiacu.Key;
+import com.proto.baiacu.ShowResponse;
+import com.proto.baiacu.StoreResponse;
+import com.proto.baiacu.TestAndSetResponse;
+import com.proto.baiacu.Value;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BaiacuClient {
+public class BaiacuClient2 {
     public static void main(String[] args) {
 
         int chosenCall = 0;
@@ -97,7 +102,7 @@ public class BaiacuClient {
         while(!onlyDigits(keyString));
 
         Key key = Key.newBuilder().setKey(keyString).build();
-        
+
         ShowResponse response = apiCalls.showCall(key);
         System.out.println(response);
     }

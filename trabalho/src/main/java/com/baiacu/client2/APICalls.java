@@ -1,6 +1,19 @@
-package com.baiacu.client;
+package com.baiacu.client2;
 
-import com.proto.baiacu.*;
+import com.proto.baiacu.BaiacuServiceGrpc;
+import com.proto.baiacu.DestroyByVersionRequest;
+import com.proto.baiacu.DestroyByVersionResponse;
+import com.proto.baiacu.DestroyRequest;
+import com.proto.baiacu.DestroyResponse;
+import com.proto.baiacu.Key;
+import com.proto.baiacu.KeyValue;
+import com.proto.baiacu.ShowRequest;
+import com.proto.baiacu.ShowResponse;
+import com.proto.baiacu.StoreRequest;
+import com.proto.baiacu.StoreResponse;
+import com.proto.baiacu.TestAndSetRequest;
+import com.proto.baiacu.TestAndSetResponse;
+import com.proto.baiacu.Value;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -66,4 +79,8 @@ public class APICalls {
         DestroyByVersionResponse response = this.client.destroyByVersion(request);
         return response;
     }
+
+
+
+
 }
