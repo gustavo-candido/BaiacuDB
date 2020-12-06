@@ -45,7 +45,7 @@ public class WorkerTestAndSet implements Callable<TestAndSetResponse> {
 
         long version = dbValue.getVersion();
 
-        if (version != request.getVersion()) {
+        if (version >= request.getVersion()) {
             return  TestAndSetResponse.newBuilder()
                 .setStatus("ERROR_WV")
                 .setValue(hashMap.get(key))

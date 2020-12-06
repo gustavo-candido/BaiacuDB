@@ -51,7 +51,7 @@ public class WorkerStore implements Callable<StoreResponse> {
         Value reqData = request.getKeyValue().getValue();
 
         Value value = Value.newBuilder()
-            .setVersion(1)
+            .setVersion(reqData.getVersion())
             .setData(reqData.getData())
             .setTimestamp(reqData.getTimestamp())
             .build();
