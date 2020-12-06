@@ -1,5 +1,6 @@
 package com.baiacu.clientAsync;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.ByteString;
 import com.proto.baiacu.DestroyByVersionResponse;
 import com.proto.baiacu.DestroyResponse;
@@ -66,8 +67,8 @@ public class BaiacuClientAsync {
 
         Key key = Key.newBuilder().setKey(keyString).build();
 
-        DestroyResponse response = apiCalls.destroyCall(key);
-        System.out.println(response);
+        ListenableFuture<DestroyResponse> response = apiCalls.destroyCall(key);
+        System.out.println(response.get());
     }
 
     private static void destroyByVersionHandler() throws ExecutionException, InterruptedException {
@@ -86,8 +87,8 @@ public class BaiacuClientAsync {
 
         Key key = Key.newBuilder().setKey(keyString).build();
 
-        DestroyByVersionResponse response = apiCalls.destroyByVersionCall(key,version);
-        System.out.println(response);
+        ListenableFuture<DestroyByVersionResponse> response = apiCalls.destroyByVersionCall(key,version);
+        System.out.println(response.get());
     }
 
 
@@ -104,8 +105,8 @@ public class BaiacuClientAsync {
 
         Key key = Key.newBuilder().setKey(keyString).build();
 
-        ShowResponse response = apiCalls.showCall(key);
-        System.out.println(response);
+        ListenableFuture<ShowResponse> response = apiCalls.showCall(key);
+        System.out.println(response.get());
     }
 
     private static void testAndSetHandler() throws ExecutionException, InterruptedException {
@@ -132,8 +133,8 @@ public class BaiacuClientAsync {
                 .setTimestamp(System.currentTimeMillis() / 1000L)
                 .build();
 
-        TestAndSetResponse response = apiCalls.testAndSetCall(key, value, version);
-        System.out.println(response);
+        ListenableFuture<TestAndSetResponse> response = apiCalls.testAndSetCall(key, value, version);
+        System.out.println(response.get());
     }
 
     private static void storeHandler() throws ExecutionException, InterruptedException {
@@ -157,8 +158,8 @@ public class BaiacuClientAsync {
                 .setTimestamp(System.currentTimeMillis() / 1000L)
                 .build();
 
-        StoreResponse response = apiCalls.storeCall(key, value);
-        System.out.println(response);
+        ListenableFuture<StoreResponse> response = apiCalls.storeCall(key, value);
+        System.out.println(response.get());
     }
 
 

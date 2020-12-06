@@ -32,7 +32,7 @@ public class APICallsAsync {
          this.client = BaiacuServiceGrpc.newFutureStub(channel);
     }
 
-    public StoreResponse storeCall(Key key, Value value) throws ExecutionException, InterruptedException {
+    public ListenableFuture<StoreResponse> storeCall(Key key, Value value) throws ExecutionException, InterruptedException {
 
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
@@ -41,10 +41,10 @@ public class APICallsAsync {
 
         StoreRequest request = StoreRequest.newBuilder().setKeyValue(keyValue).build();
         ListenableFuture<StoreResponse> response = this.client.store(request);
-        return response.get();
+        return response;
     }
 
-    public ShowResponse showCall(Key key) throws ExecutionException, InterruptedException {
+    public ListenableFuture<ShowResponse> showCall(Key key) throws ExecutionException, InterruptedException {
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",PORT)
                 .usePlaintext()
@@ -52,10 +52,10 @@ public class APICallsAsync {
       
         ShowRequest request = ShowRequest.newBuilder().setKey(key).build();
         ListenableFuture<ShowResponse> response = this.client.show(request);
-        return response.get();
+        return response;
     }
 
-    public TestAndSetResponse testAndSetCall(Key key, Value value, int version) throws ExecutionException, InterruptedException {
+    public ListenableFuture<TestAndSetResponse> testAndSetCall(Key key, Value value, long version) throws ExecutionException, InterruptedException {
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
                 .setValue(value)
@@ -64,23 +64,23 @@ public class APICallsAsync {
                 .setVersion(version)
                 .build();
         ListenableFuture<TestAndSetResponse> response = this.client.testAndSet(request);
-        return response.get();
+        return response;
     }
 
 
-    public DestroyResponse destroyCall(Key key) throws ExecutionException, InterruptedException {
+    public ListenableFuture<DestroyResponse> destroyCall(Key key) throws ExecutionException, InterruptedException {
         DestroyRequest request = DestroyRequest.newBuilder().setKey(key).build();
         ListenableFuture<DestroyResponse> response = this.client.destroy(request);
-        return response.get();
+        return response;
     }
 
-    public DestroyByVersionResponse destroyByVersionCall(Key key, long version) throws ExecutionException, InterruptedException {
+    public ListenableFuture<DestroyByVersionResponse> destroyByVersionCall(Key key, long version) throws ExecutionException, InterruptedException {
         DestroyByVersionRequest request = DestroyByVersionRequest.newBuilder()
                 .setKey(key)
                 .setVersion(version)
                 .build();
         ListenableFuture<DestroyByVersionResponse> response = this.client.destroyByVersion(request);
-        return response.get();
+        return response;
     }
 
 

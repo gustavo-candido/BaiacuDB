@@ -39,7 +39,7 @@ public class APICalls {
         return response;
     }
 
-    public TestAndSetResponse testAndSetCall(Key key, Value value, int version){
+    public TestAndSetResponse testAndSetCall(Key key, Value value, long version){
         KeyValue keyValue = KeyValue.newBuilder()
                 .setKey(key)
                 .setValue(value)
