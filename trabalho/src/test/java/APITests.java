@@ -17,10 +17,9 @@ import java.util.concurrent.Future;
 public class APITests {
     private static APICalls api;
     private  static APICallsAsync apiAsync;
-
     private static List<KeyValue> StoredKeyArray = new ArrayList<>();
 
-    private long UPMOST = 999999;
+    private long UPMOST = 9999;
 
     APITests() {
         api = new APICalls();
@@ -36,19 +35,32 @@ public class APITests {
 
 
     private KeyValue generateAndStoreKV(long min){
-        long keyString =  new Random().nextInt(999999)+1;
+        boolean remakeKey = false;
+        long keyString;
+
+        do {
+            remakeKey = false;
+            keyString = new Random().nextInt(999999) + min;
+            for (KeyValue kv : StoredKeyArray) {
+                if (kv.getKey().getKey().equals(String.valueOf(keyString))) {
+                    remakeKey = true;
+                }
+            }
+        } while (remakeKey);
         Key key = Key.newBuilder().setKey(String.valueOf(keyString)).build();
 
-        Value value  = Value.newBuilder()
-                .setData(ByteString.copyFromUtf8("teste"))
-                .setTimestamp(System.currentTimeMillis() / 1000L)
-                .setVersion(new Random().nextInt(100)+1)
-                .build();
+        Value value = Value.newBuilder()
+                    .setData(ByteString.copyFromUtf8("teste"))
+                    .setTimestamp(System.currentTimeMillis() / 1000L)
+                    .setVersion(new Random().nextInt(100) + 1)
+                    .build();
 
-        KeyValue keyValue = KeyValue.newBuilder()
-                .setKey(key)
-                .setValue(value)
-                .build();
+            KeyValue keyValue = KeyValue.newBuilder()
+                    .setKey(key)
+                    .setValue(value)
+                    .build();
+
+
 
         StoredKeyArray.add(keyValue);
         return keyValue;
@@ -195,99 +207,54 @@ public class APITests {
                 Assertions.assertEquals("ERROR_WV", t.getStatus());
             }
         }
-
-
-        @Test
-        @DisplayName("testa se dois store assíncronos vão sobrescrever um campo")
-        void shouldNotOverwriteBytes() throws ExecutionException, InterruptedException {
-            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",50051)
-                    .usePlaintext()
-                    .build();
-
-            BaiacuServiceGrpc.BaiacuServiceFutureStub client =  BaiacuServiceGrpc.newFutureStub(channel);
-
-            //criar uma string bem grande de letras "a"
-            StringBuilder testA = new StringBuilder();
-            for (int i = 0; i < 100000 ; i++) {
-                testA.append("a");
-            }
-
-
-            //criar uma string bem grande de letras "b"
-            StringBuilder testB = new StringBuilder();
-            for (int i = 0; i < 100000 ; i++) {
-                testB.append("b");
-            }
-
-
-            //constrói a requisição
-            Key key = Key.newBuilder().setKey("1").build();
-
-            Value valueA  = Value.newBuilder()
-                    .setData(ByteString.copyFromUtf8(testA.toString()))
-                    .setTimestamp(12345)
-                    .setVersion(1)
-                    .build();
-
-            Value valueB  = Value.newBuilder()
-                    .setData(ByteString.copyFromUtf8(testB.toString()))
-                    .setTimestamp(123456)
-                    .setVersion(2)
-                    .build();
-
-
-            KeyValue keyValueA = KeyValue.newBuilder()
-                    .setKey(key)
-                    .setValue(valueA)
-                    .build();
-
-            KeyValue keyValueB = KeyValue.newBuilder()
-                    .setKey(key)
-                    .setValue(valueB)
-                    .build();
-
-            StoreRequest requestA = StoreRequest.newBuilder().setKeyValue(keyValueA).build();
-            client.store(requestA);
-
-            StoreRequest requestB = StoreRequest.newBuilder().setKeyValue(keyValueB).build();
-            ListenableFuture<StoreResponse> responseB = client.store(requestB);
-
-            ShowRequest requestC = ShowRequest.newBuilder().setKey(key).build();
-            ListenableFuture<ShowResponse> responseC = client.show(requestC);
-
-            Assertions.assertEquals(responseC.get().getValue().getData(), responseB.get().getValue().getData());
-            channel.shutdown();
-        }
     }
 
 
     @Nested
     @DisplayName("testes de estresse")
     class StressTests {
-        List<ListenableFuture<StoreResponse>> FutureStoreArray = new Vector<>();
+        List<ListenableFuture<StoreResponse>> FutureStoreVec = new Vector<>();
+        List<ListenableFuture<ShowResponse>> FutureShowVec = new Vector<>();
+        List<ListenableFuture<TestAndSetResponse>> FutureTSVec = new Vector<>();
 
 
         //guarda primeiro 10 mil valores assíncronamente
 
         @Test
-        @DisplayName("faz 10 mil inserções assíncrona e todas deveriam retornar sucesso")
-        void StreesEnough() throws ExecutionException, InterruptedException {
-
-            for (int i = 0; i < 10000 ; i++) {
-                KeyValue kv  = generateAndStoreKV(UPMOST+i);
-                FutureStoreArray.add(apiAsync.storeCall(kv.getKey(),kv.getValue()));
+        @DisplayName("faz 10 mil inserções assíncronas e todas deveriam retornar sucesso")
+        @Order(1)
+        void StreesEnoughStore() throws ExecutionException, InterruptedException {
+            for (int i = 1; i < 10000 ; i++) {
+                KeyValue kv  = generateAndStoreKV(UPMOST);
+                FutureStoreVec.add(apiAsync.storeCall(kv.getKey(),kv.getValue()));
             }
 
-            for (ListenableFuture<StoreResponse> future : FutureStoreArray){
+            for (ListenableFuture<StoreResponse> future : FutureStoreVec){
+                Assertions.assertEquals("SUCCESS", future.get().getStatus());
+            }
+        }
+
+        @DisplayName("faz 10 mil requisições de get assíncronas e todas deveriam retornar sucesso")
+        void StreesEnoughGets() throws ExecutionException, InterruptedException {
+            for (KeyValue kv : StoredKeyArray) {
+                FutureShowVec.add(apiAsync.showCall(kv.getKey()));
+            }
+
+            for (ListenableFuture<ShowResponse> future : FutureShowVec){
                 Assertions.assertEquals("SUCCESS", future.get().getStatus());
             }
         }
 
 
-        //faz operações aleatórias nessses 10 mil valores.
+        @DisplayName("faz 10 mil gets no servidor")
+        void StreesEnoughTestsAndSets() throws ExecutionException, InterruptedException {
+            for (KeyValue kv : StoredKeyArray) {
+                FutureTSVec.add(apiAsync.testAndSetCall(kv.getKey(),kv.getValue(), kv.getValue().getVersion()));
+            }
 
+            for (ListenableFuture<TestAndSetResponse> future : FutureTSVec){
+                Assertions.assertEquals("SUCCESS", future.get().getStatus());
+            }
+        }
     }
-
-
-
 }
