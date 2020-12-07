@@ -6,10 +6,10 @@ Projeto final disciplina de Sistemas Distribuídos
 </p>
 
 # alunos responsáveis
-Gustavo Candido 
-Bruno Tannús                      11711BCC041
-Pedro Henrique Bufulin de Almeida 11711BCC028
-Lucas Matsuhashi     
+Gustavo Candido, 
+Bruno Tannús, 
+Pedro Henrique Bufulin de Almeida, 
+Lucas Matsuhashi.
 
 # instruções
 Como fizemos o projeto em usando gradle, é preciso rodar `./gradle build` ou qualquer outro comando que faça a mesma coisa na sua IDE.
