@@ -10,21 +10,43 @@ import org.apache.ratis.thirdparty.com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class RaftClientMain
-{
+public class RaftClientRunner {
 
-    public static void main(String[] args) throws IOException
+    private RaftClient client;
+
+
+    public void add (String arg1, String arg2) throws IOException {
+        this.start();
+        RaftClientReply getValue = client.send(Message.valueOf("add:" + arg1+ ":" + arg2));;
+        String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
+        System.out.println("Resposta:" + response);
+
+        client.close();
+    }
+
+    public void get(String arg1 ) throws IOException {
+        this.start();
+        RaftClientReply getValue = client.sendReadOnly(Message.valueOf("get:" + arg1));
+        String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
+        System.out.println("Resposta:" + response);
+        client.close();
+
+    }
+
+    public void start() throws IOException
     {
         String raftGroupId = "raft_group____um"; // 16 caracteres.
 
         Map<String,InetSocketAddress> id2addr = new HashMap<>();
         id2addr.put("p1", new InetSocketAddress("127.0.0.1", 3000));
+        id2addr.put("p2", new InetSocketAddress("127.0.0.1", 3500));
+        id2addr.put("p3", new InetSocketAddress("127.0.0.1", 4000));
+
 
         List<RaftPeer> addresses = id2addr.entrySet()
                 .stream()
@@ -41,8 +63,9 @@ public class RaftClientMain
                         .newRaftClientRpc(ClientId.randomId(), raftProperties))
                 .build();
 
-        RaftClientReply getValue;
-        String response;
+        this.client = client;
+
+/*
         switch (args[0]){
             case "add":
                 getValue = client.send(Message.valueOf("add:" + args[1] + ":" + args[2]));
@@ -57,7 +80,7 @@ public class RaftClientMain
             default:
                 System.out.println("comando inválido");
         }
+*/
 
-        client.close();
     }
 }

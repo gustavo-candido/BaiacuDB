@@ -1,5 +1,4 @@
-package com.baiacu.raft;
-
+package com.baiacu.server;
 
 import org.apache.ratis.conf.RaftProperties;
 import org.apache.ratis.grpc.GrpcConfigKeys;
@@ -22,7 +21,26 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class RaftServerMain {
+import com.baiacu.raft.StateMachine;
+import com.beust.jcommander.Parameter;
+
+
+
+public class RaftServerRunner {
+
+
+    @Parameter(names = "-group", description = "Nome do grupo para ser executado")
+    private String groupId;
+
+    @Parameter(names = "-id", description = "Identificador do servidor")
+    private String id;
+
+    @Parameter(names = "-port", description = "Identificador do servidor")
+    private String port;
+
+    @Parameter(names = "-host", description = "Identificador do servidor")
+    private String host;
+
 
     //Parametros: myId
     public static void main(String[] args) throws IOException, InterruptedException
@@ -34,6 +52,7 @@ public class RaftServerMain {
         id2addr.put("p1", new InetSocketAddress("127.0.0.1", 3000));
         id2addr.put("p2", new InetSocketAddress("127.0.0.1", 3500));
         id2addr.put("p3", new InetSocketAddress("127.0.0.1", 4000));
+
 
         List<RaftPeer> addresses = id2addr.entrySet()
                 .stream()
@@ -49,17 +68,16 @@ public class RaftServerMain {
             System.exit(1);
         }
 
-        RaftProperties properties = new RaftProperties();
+        RaftProperties  properties = new RaftProperties();
         properties.setInt(GrpcConfigKeys.OutputStream.RETRY_TIMES_KEY, Integer.MAX_VALUE);
         GrpcConfigKeys.Server.setPort(properties, id2addr.get(args[0]).getPort());
         RaftServerConfigKeys.setStorageDir(properties, Collections.singletonList(new File("/tmp/" + myId)));
-
 
         //Join the group of processes.
         final RaftGroup raftGroup = RaftGroup.valueOf(RaftGroupId.valueOf(ByteString.copyFromUtf8(raftGroupId)), addresses);
         RaftServer raftServer = RaftServer.newBuilder()
                 .setServerId(myId)
-                .setStateMachine(new MaquinaDeEstados()).setProperties(properties)
+                .setStateMachine(new StateMachine()).setProperties(properties)
                 .setGroup(raftGroup)
                 .build();
         raftServer.start();

@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class MaquinaDeEstados extends BaseStateMachine
+public class StateMachine extends BaseStateMachine
 {
     private final Map<String, String> key2values = new ConcurrentHashMap<>();
 

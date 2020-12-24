@@ -1,5 +1,6 @@
 package SGBD;
 
+import com.baiacu.raft.RaftClientRunner;
 import com.proto.baiacu.Key;
 import com.proto.baiacu.ShowRequest;
 import com.proto.baiacu.ShowResponse;
@@ -40,11 +41,16 @@ public class WorkerShow implements Callable<ShowResponse> {
         Value value = this.hashMap.get(request.getKey());
         Key key = request.getKey();
 
+        RaftClientRunner client  = new RaftClientRunner();
+
+
         if (!hashMap.containsKey(key)) {
             return ShowResponse.newBuilder()
-                .setStatus("ERROR")
-                .build();
+                    .setStatus("ERROR")
+                    .build();
         }
+
+        client.get(key.getKey());
 
         return ShowResponse.newBuilder()
             .setStatus("SUCCESS")

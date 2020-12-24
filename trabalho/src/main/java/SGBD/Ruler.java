@@ -31,7 +31,9 @@ public class Ruler {
         ReadDiskService readDiskService = new ReadDiskService();
         data = (HashMap<Key, Value>) readDiskService.run(FILE_PATH);
 
-        new Timer().scheduleAtFixedRate(new TimerTask(){
+
+        // TODO: Agora quem vai fazer escrita é o Ratis
+        /*new Timer().scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run(){
                 StoreDiskService storeDiskService = new StoreDiskService();
@@ -41,7 +43,7 @@ public class Ruler {
                     e.printStackTrace();
                 }
             }
-        },0,DISK_STORAGE_PERIOD);
+        },0,DISK_STORAGE_PERIOD);*/
     }
 
     public void setData(

@@ -1,5 +1,6 @@
 package SGBD;
 
+import com.baiacu.raft.RaftClientRunner;
 import com.proto.baiacu.*;
 
 import java.util.HashMap;
@@ -9,19 +10,10 @@ import java.util.concurrent.TimeUnit;
 public class WorkerStore implements Callable<StoreResponse> {
     private HashMap<Key, Value> hashMap;
     private StoreRequest request;
-    private StoreResponse response;
 
     public WorkerStore(HashMap<Key, Value> hashMap, StoreRequest request) {
         this.hashMap = hashMap;
         this.request = request;
-    }
-
-    public HashMap<Key, Value> getHashMap() {
-        return hashMap;
-    }
-
-    public void setHashMap(HashMap<Key, Value> hashMap) {
-        this.hashMap = hashMap;
     }
 
     public StoreRequest getRequest() {
@@ -40,6 +32,8 @@ public class WorkerStore implements Callable<StoreResponse> {
     public StoreResponse call() throws Exception {
         Key key = request.getKeyValue().getKey();
 
+        RaftClientRunner client  = new RaftClientRunner();
+
         // já existe key
         if (hashMap.containsKey(key)) {
             return  StoreResponse.newBuilder()
@@ -47,6 +41,7 @@ public class WorkerStore implements Callable<StoreResponse> {
                 .setValue(hashMap.get(key))
                 .build();
         }
+
 
         Value reqData = request.getKeyValue().getValue();
 
@@ -56,7 +51,11 @@ public class WorkerStore implements Callable<StoreResponse> {
             .setTimestamp(reqData.getTimestamp())
             .build();
 
+
+
+        client.add(key.getKey(),value.getData().toString());
         this.hashMap.put(key,value);
+
 
         return StoreResponse.newBuilder()
             .setStatus("SUCCESS")

@@ -1,6 +1,6 @@
 package com.baiacu.server;
 
-import SGBD.Ruler;
+import SGBD .Ruler;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -41,7 +41,7 @@ public class BaiacuServer {
             server.start();
             server.blockUntilShutdown();
         }
-    }
+}
 
 
 

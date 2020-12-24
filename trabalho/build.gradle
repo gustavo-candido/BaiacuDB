@@ -46,6 +46,9 @@ dependencies {
     compile group: 'org.apache.ratis', name: 'ratis-server', version: '1.0.0'
     compile group: 'org.apache.ratis', name: 'ratis-netty', version: '1.0.0'
     compile group: 'org.apache.ratis', name: 'ratis-grpc', version: '1.0.0'
+    compile group: 'org.apache.ratis', name: 'ratis-proto', version: '1.0.0'
+    compile group: 'org.apache.ratis', name: 'ratis-common', version: '1.0.0'
+
 
     //jcommander
     compile group: 'com.beust', name: 'jcommander', version: '1.78'
