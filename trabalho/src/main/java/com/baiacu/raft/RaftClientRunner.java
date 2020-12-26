@@ -8,7 +8,7 @@ import org.apache.ratis.grpc.GrpcFactory;
 import org.apache.ratis.protocol.*;
 import org.apache.ratis.thirdparty.com.google.protobuf.ByteString;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -34,7 +34,20 @@ public class RaftClientRunner {
 
         String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
         System.out.println(response);
+        System.out.println(response);
         client.close();
+
+        try {
+            byte b[] = response.getBytes();
+            ByteArrayInputStream bi = new ByteArrayInputStream(b);
+            ObjectInputStream si = new ObjectInputStream(bi);;
+            StoreResponse storeResponse = (StoreResponse) si.readObject();
+            System.out.println(storeResponse);
+            return storeResponse;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     public void get(String key ) throws IOException {

@@ -52,13 +52,6 @@ public class WorkerStoreHandler implements Callable<StoreResponse> {
 
         StoreResponse response = client.add(keyString,contentString,timestampString,versionString);
 
-/*
-        this.hashMap.put(key,value);
-*/
-
-
-        return StoreResponse.newBuilder()
-            .setStatus("SUCCESS")
-            .build();
+        return response;
     }
 }

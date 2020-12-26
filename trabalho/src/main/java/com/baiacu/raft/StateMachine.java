@@ -8,6 +8,8 @@ import org.apache.ratis.protocol.Message;
 import org.apache.ratis.statemachine.TransactionContext;
 import org.apache.ratis.statemachine.impl.BaseStateMachine;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -42,8 +44,10 @@ public class StateMachine extends BaseStateMachine
 
         final String[] opKeyValue = m.group(1).split(",");
 
+
+        String response = "";
         if(opKeyValue[0].equals("add")){
-            (new Storer()).run(key2values, opKeyValue);
+            response = (new Storer()).run(key2values, opKeyValue);
 
         } else if (opKeyValue[0].equals("replace")){
 
@@ -52,8 +56,12 @@ public class StateMachine extends BaseStateMachine
 
         }
 
-        final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf("respsta " + whole));
 
+        // serialize the object
+
+        final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf(response));
+
+        LOG.debug("objeto serializado:" + response);
         final RaftProtos.RaftPeerRole role = trx.getServerRole();
         LOG.info("{}:{} {} {}={},{},{}", role, getId(), opKeyValue[0], opKeyValue[1], opKeyValue[2],opKeyValue[3]
                                         , opKeyValue[4]
