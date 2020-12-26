@@ -1,5 +1,8 @@
 package com.baiacu.raft;
 
+import com.baiacu.raft.workes.Storer;
+import com.proto.baiacu.Key;
+import com.proto.baiacu.Value;
 import org.apache.ratis.proto.RaftProtos;
 import org.apache.ratis.protocol.Message;
 import org.apache.ratis.statemachine.TransactionContext;
@@ -15,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class StateMachine extends BaseStateMachine
 {
-    private final Map<String, String> key2values = new ConcurrentHashMap<>();
+    private final Map<Key, Value> key2values = new ConcurrentHashMap<>();
 
     @Override
     public CompletableFuture<Message> query(Message request) {
@@ -36,12 +39,12 @@ public class StateMachine extends BaseStateMachine
         Pattern p = Pattern.compile("\\[REQUEST\\](.*?)\\[\\/REQUEST\\]", Pattern.DOTALL);
         Matcher m = p.matcher(whole);
         m.find();
+
         final String[] opKeyValue = m.group(1).split(",");
 
-        String result = new String();
         if(opKeyValue[0].equals("add")){
-            result = opKeyValue[0]+ ":" + key2values.put(opKeyValue[1],
-                    opKeyValue[2] + "," + opKeyValue[3]  + "," + opKeyValue[4]);
+            (new Storer()).run(key2values, opKeyValue);
+
         } else if (opKeyValue[0].equals("replace")){
 
         }
@@ -49,8 +52,7 @@ public class StateMachine extends BaseStateMachine
 
         }
 
-
-        final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf(result));
+        final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf("respsta " + whole));
 
         final RaftProtos.RaftPeerRole role = trx.getServerRole();
         LOG.info("{}:{} {} {}={},{},{}", role, getId(), opKeyValue[0], opKeyValue[1], opKeyValue[2],opKeyValue[3]

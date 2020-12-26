@@ -7,21 +7,15 @@ import java.util.HashMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-public class WorkerStore implements Callable<StoreResponse> {
-    private HashMap<Key, Value> hashMap;
+public class WorkerStoreHandler implements Callable<StoreResponse> {
     private StoreRequest request;
 
-    public WorkerStore(HashMap<Key, Value> hashMap, StoreRequest request) {
-        this.hashMap = hashMap;
+    public WorkerStoreHandler(StoreRequest request) {
         this.request = request;
     }
 
     public StoreRequest getRequest() {
         return request;
-    }
-
-    public void setRequest(StoreRequest request) {
-        this.request = request;
     }
 
 //    retorna a tupla (e,v') onde e=SUCCESS e v'=NULL se k-v foi inserido
@@ -35,18 +29,18 @@ public class WorkerStore implements Callable<StoreResponse> {
         RaftClientRunner client  = new RaftClientRunner();
 
         // já existe key
-        if (hashMap.containsKey(key)) {
+   /*     if (hashMap.containsKey(key)) {
             return  StoreResponse.newBuilder()
                 .setStatus("ERROR")
                 .setValue(hashMap.get(key))
                 .build();
         }
-
+*/
 
         Value reqData = request.getKeyValue().getValue();
 
         Value value = Value.newBuilder()
-            .setVersion(reqData.getVersion())
+            .setVersion(0)
             .setData(reqData.getData())
             .setTimestamp(reqData.getTimestamp())
             .build();
@@ -56,9 +50,11 @@ public class WorkerStore implements Callable<StoreResponse> {
         String timestampString =  String.valueOf(value.getTimestamp());
         String versionString = String.valueOf(value.getVersion());
 
-        client.add(keyString,contentString,timestampString,versionString);
+        StoreResponse response = client.add(keyString,contentString,timestampString,versionString);
 
+/*
         this.hashMap.put(key,value);
+*/
 
 
         return StoreResponse.newBuilder()

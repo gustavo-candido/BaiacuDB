@@ -1,13 +1,10 @@
 package SGBD;
 
 import SGBD.storage.ReadDiskService;
-import SGBD.storage.StoreDiskService;
 import com.proto.baiacu.*;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ExecutorService;
@@ -53,7 +50,7 @@ public class Ruler {
 
     public StoreResponse storeHandler(StoreRequest request) throws InterruptedException {
         sem.acquire();
-        Future<StoreResponse> submit = pool.submit(new WorkerStore(data, request));
+        Future<StoreResponse> submit = pool.submit(new WorkerStoreHandler(request));
         try {
             StoreResponse storeResponse = submit.get();
 

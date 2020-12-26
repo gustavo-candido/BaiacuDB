@@ -1,5 +1,6 @@
 package com.baiacu.raft;
 
+import com.proto.baiacu.StoreResponse;
 import org.apache.ratis.client.RaftClient;
 import org.apache.ratis.conf.Parameters;
 import org.apache.ratis.conf.RaftProperties;
@@ -20,7 +21,7 @@ public class RaftClientRunner {
     private RaftClient client;
 
 
-    public void add (String key, String content, String timestamp, String version ) throws IOException {
+    public StoreResponse add (String key, String content, String timestamp, String version ) throws IOException {
         this.start();
         RaftClientReply getValue = client.send(Message.valueOf(
                 "[REQUEST]" +
@@ -30,7 +31,9 @@ public class RaftClientRunner {
                 "," + version +
                 "[/REQUEST]"
         ));
+
         String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
+        System.out.println(response);
         client.close();
     }
 
@@ -38,6 +41,7 @@ public class RaftClientRunner {
         this.start();
         RaftClientReply getValue = client.sendReadOnly(Message.valueOf("get:" + key));
         String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
+        System.out.println(response);
         client.close();
     }
 
