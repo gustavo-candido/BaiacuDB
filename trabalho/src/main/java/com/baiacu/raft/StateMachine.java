@@ -1,5 +1,6 @@
 package com.baiacu.raft;
 
+import com.baiacu.raft.workes.Shower;
 import com.baiacu.raft.workes.Storer;
 import com.proto.baiacu.Key;
 import com.proto.baiacu.Value;
@@ -24,11 +25,15 @@ public class StateMachine extends BaseStateMachine
 
     @Override
     public CompletableFuture<Message> query(Message request) {
-        final String[] opKey = request.getContent().toString(Charset.defaultCharset()).split(":");
-        final String result = opKey[0]+ ":"+ key2values.get(opKey[1]);
+        final String whole = request.getContent().toString(Charset.defaultCharset());
+        String[] opKeyValue = getValues(whole);
 
-        LOG.debug("{}: {} = {}", opKey[0], opKey[1], result);
-        return CompletableFuture.completedFuture(Message.valueOf(result));
+        String response = (new Shower()).run(key2values,opKeyValue);
+
+        final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf(response));
+
+        LOG.debug("RESPOSTA:" + response);
+        return f;
     }
 
 
@@ -36,13 +41,7 @@ public class StateMachine extends BaseStateMachine
     public CompletableFuture<Message> applyTransaction(TransactionContext trx) {
         final RaftProtos.LogEntryProto entry = trx.getLogEntry();
         final String whole = entry.getStateMachineLogEntry().getLogData().toString(Charset.defaultCharset());
-
-        // pegar da whole string apenas quem está entre [REQUEST] [/REQUEST]
-        Pattern p = Pattern.compile("\\[REQUEST\\](.*?)\\[\\/REQUEST\\]", Pattern.DOTALL);
-        Matcher m = p.matcher(whole);
-        m.find();
-
-        final String[] opKeyValue = m.group(1).split(",");
+        String[] opKeyValue = getValues(whole);
 
 
         String response = "";
@@ -56,12 +55,8 @@ public class StateMachine extends BaseStateMachine
 
         }
 
-
-        // serialize the object
-
         final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf(response));
-
-        LOG.debug("objeto serializado:" + response);
+        LOG.debug("RESPOSTA:" + response);
         final RaftProtos.RaftPeerRole role = trx.getServerRole();
         LOG.info("{}:{} {} {}={},{},{}", role, getId(), opKeyValue[0], opKeyValue[1], opKeyValue[2],opKeyValue[3]
                                         , opKeyValue[4]
@@ -72,4 +67,16 @@ public class StateMachine extends BaseStateMachine
         }
         return f;
     }
+
+
+    private String[] getValues(String whole){
+        // pegar da whole string apenas quem está entre [REQUEST] [/REQUEST]
+        Pattern p = Pattern.compile("\\[REQUEST\\](.*?)\\[\\/REQUEST\\]", Pattern.DOTALL);
+        Matcher m = p.matcher(whole);
+        m.find();
+
+        final String[] opKeyValue = m.group(1).split(",");
+        return opKeyValue;
+    }
+
 }

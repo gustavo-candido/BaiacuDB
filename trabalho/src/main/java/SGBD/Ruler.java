@@ -69,7 +69,7 @@ public class Ruler {
         throws ExecutionException, InterruptedException {
         sem.acquire();
         sem.release();
-        Future<ShowResponse> submit = pool.submit(new WorkerShow(data, request));
+        Future<ShowResponse> submit = pool.submit(new WorkerShowHandler(request));
         try {
             return submit.get();
         } catch (InterruptedException e) {

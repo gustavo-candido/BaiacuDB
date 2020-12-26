@@ -40,17 +40,13 @@ public class WorkerStoreHandler implements Callable<StoreResponse> {
         Value reqData = request.getKeyValue().getValue();
 
         Value value = Value.newBuilder()
-            .setVersion(0)
+            .setVersion(1)
             .setData(reqData.getData())
             .setTimestamp(reqData.getTimestamp())
             .build();
 
-        String keyString = key.getKey();
-        String contentString = value.getData().toStringUtf8();
-        String timestampString =  String.valueOf(value.getTimestamp());
-        String versionString = String.valueOf(value.getVersion());
 
-        StoreResponse response = client.add(keyString,contentString,timestampString,versionString);
+        StoreResponse response = client.add(key,value);
 
         return response;
     }

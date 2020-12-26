@@ -1,6 +1,6 @@
 package com.baiacu.raft;
 
-import com.proto.baiacu.StoreResponse;
+import com.proto.baiacu.*;
 import org.apache.ratis.client.RaftClient;
 import org.apache.ratis.conf.Parameters;
 import org.apache.ratis.conf.RaftProperties;
@@ -21,41 +21,49 @@ public class RaftClientRunner {
     private RaftClient client;
 
 
-    public StoreResponse add (String key, String content, String timestamp, String version ) throws IOException {
+    public StoreResponse add (Key key, Value value) throws IOException {
+
+        String keyString = key.getKey();
+        String content = value.getData().toStringUtf8();
+        String timestamp =  String.valueOf(value.getTimestamp());
+        String version = String.valueOf(value.getVersion());
+
         this.start();
         RaftClientReply getValue = client.send(Message.valueOf(
                 "[REQUEST]" +
-                "add" + "," + key+
+                "add" + "," + keyString+
                 "," + content +
                 "," + timestamp +
                 "," + version +
                 "[/REQUEST]"
         ));
 
-        String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
-        System.out.println(response);
-        System.out.println(response);
         client.close();
-
-        try {
-            byte b[] = response.getBytes();
-            ByteArrayInputStream bi = new ByteArrayInputStream(b);
-            ObjectInputStream si = new ObjectInputStream(bi);;
-            StoreResponse storeResponse = (StoreResponse) si.readObject();
-            System.out.println(storeResponse);
-            return storeResponse;
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
+        String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
+        StoreResponse storeResponse = StoreResponse.newBuilder().setStatus(response[1]).build();
+        return storeResponse;
     }
 
-    public void get(String key ) throws IOException {
+    public ShowResponse get(Key key) throws IOException {
         this.start();
-        RaftClientReply getValue = client.sendReadOnly(Message.valueOf("get:" + key));
-        String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
-        System.out.println(response);
+        String keyString = key.getKey();
+
+        RaftClientReply getValue = client.sendReadOnly(Message.valueOf(
+                        "[REQUEST]" +
+                        "get" + "," + keyString+
+                        "[/REQUEST]"
+        ));
         client.close();
+        String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
+        Value value = Value.newBuilder()
+                .setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
+                .setTimestamp(Long.parseLong(response[3]))
+                .setVersion(Long.parseLong(response[4]))
+                .build();
+
+        ShowResponse showResponse = ShowResponse.newBuilder().setStatus(response[1]).setValue(value).build();
+        System.out.println(showResponse);
+        return showResponse;
     }
 
     public void start() throws IOException

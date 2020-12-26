@@ -15,37 +15,30 @@ import java.util.Map;
 public class Storer {
     Logger LOG = LoggerFactory.getLogger(Storer.class);
     public String run(Map<Key, Value> key2values, String[] opKeyValue) {
+
         Key key = Key.newBuilder().setKey(opKeyValue[1]).build();
+
+
+        String storeResponse = "STORE_RESPONSE";
+        if (key2values.containsKey(key)) {
+            // entregar a stirng contendo os dados.
+
+
+            storeResponse =  storeResponse + "," + "ERROR" ;
+            return storeResponse;
+        }
+
+
         Value value = Value.newBuilder()
                 .setData(ByteString.copyFromUtf8(opKeyValue[2]))
                 .setTimestamp(Long.parseLong(opKeyValue[3]))
                 .setVersion(Long.parseLong(opKeyValue[4]))
                 .build();
+
         key2values.put(key,value);
 
-        StoreResponse storeResponse;
-        if (key2values.containsKey(key)) {
-            storeResponse =  StoreResponse.newBuilder()
-                    .setStatus("ERROR")
-                    .setValue(key2values.get(key))
-                    .build();
-        } else {
-             storeResponse = StoreResponse.newBuilder()
-                    .setStatus("SUCCESS")
-                    .build();
-        }
 
-        String serializedObject = "";
-        try {
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            ObjectOutputStream so = new ObjectOutputStream(bo);
-            so.writeObject(storeResponse);
-            so.flush();
-            serializedObject = bo.toString();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return serializedObject;
+        storeResponse =  storeResponse + "," + "SUCCESS";
+        return storeResponse;
     }
 }
