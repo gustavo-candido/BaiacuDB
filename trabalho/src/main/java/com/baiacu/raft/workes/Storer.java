@@ -21,7 +21,7 @@ public class Storer {
 
         String storeResponse = "STORE_RESPONSE";
         if (key2values.containsKey(key)) {
-            // entregar a stirng contendo os dados.
+            // TODO: entregar a stirng contendo os dados.
 
 
             storeResponse =  storeResponse + "," + "ERROR" ;
