@@ -20,22 +20,25 @@ public class RaftClientRunner {
     private RaftClient client;
 
 
-    public void add (String arg1, String arg2) throws IOException {
+    public void add (String key, String content, String timestamp, String version ) throws IOException {
         this.start();
-        RaftClientReply getValue = client.send(Message.valueOf("add:" + arg1+ ":" + arg2));;
+        RaftClientReply getValue = client.send(Message.valueOf(
+                "[REQUEST]" +
+                "add" + "," + key+
+                "," + content +
+                "," + timestamp +
+                "," + version +
+                "[/REQUEST]"
+        ));
         String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
-        System.out.println("Resposta:" + response);
-
         client.close();
     }
 
-    public void get(String arg1 ) throws IOException {
+    public void get(String key ) throws IOException {
         this.start();
-        RaftClientReply getValue = client.sendReadOnly(Message.valueOf("get:" + arg1));
+        RaftClientReply getValue = client.sendReadOnly(Message.valueOf("get:" + key));
         String response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
-        System.out.println("Resposta:" + response);
         client.close();
-
     }
 
     public void start() throws IOException

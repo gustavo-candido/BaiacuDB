@@ -43,6 +43,7 @@ public class WorkerShow implements Callable<ShowResponse> {
 
         RaftClientRunner client  = new RaftClientRunner();
 
+        client.get(key.getKey());
 
         if (!hashMap.containsKey(key)) {
             return ShowResponse.newBuilder()
@@ -50,7 +51,6 @@ public class WorkerShow implements Callable<ShowResponse> {
                     .build();
         }
 
-        client.get(key.getKey());
 
         return ShowResponse.newBuilder()
             .setStatus("SUCCESS")

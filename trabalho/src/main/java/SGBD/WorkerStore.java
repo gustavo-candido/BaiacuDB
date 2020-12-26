@@ -51,9 +51,13 @@ public class WorkerStore implements Callable<StoreResponse> {
             .setTimestamp(reqData.getTimestamp())
             .build();
 
+        String keyString = key.getKey();
+        String contentString = value.getData().toStringUtf8();
+        String timestampString =  String.valueOf(value.getTimestamp());
+        String versionString = String.valueOf(value.getVersion());
 
+        client.add(keyString,contentString,timestampString,versionString);
 
-        client.add(key.getKey(),value.getData().toString());
         this.hashMap.put(key,value);
 
 
