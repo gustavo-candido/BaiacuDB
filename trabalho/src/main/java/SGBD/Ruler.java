@@ -110,7 +110,7 @@ public class Ruler {
 
     public TestAndSetResponse testAndSetHandler(TestAndSetRequest request)
         throws InterruptedException {
-        Future<TestAndSetResponse> submit = pool.submit(new WorkerTestAndSet(data, request));
+        Future<TestAndSetResponse> submit = pool.submit(new WorkerTestAndSetHandler(request));
         sem.acquire();
         try {
             TestAndSetResponse testAndSetResponse = submit.get();
