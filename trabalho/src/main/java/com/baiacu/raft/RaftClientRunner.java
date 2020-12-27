@@ -1,6 +1,7 @@
 package com.baiacu.raft;
 
 import com.proto.baiacu.*;
+import java.util.Arrays;
 import org.apache.ratis.client.RaftClient;
 import org.apache.ratis.conf.Parameters;
 import org.apache.ratis.conf.RaftProperties;
@@ -44,6 +45,46 @@ public class RaftClientRunner {
         return storeResponse;
     }
 
+    public TestAndSetResponse testAdd (Key key, Value value, long ver) throws IOException {
+
+        String keyString = key.getKey();
+        String content = value.getData().toStringUtf8();
+        String timestamp =  String.valueOf(value.getTimestamp());
+        String version = String.valueOf(ver);
+
+        
+        this.start();
+        RaftClientReply getValue = client.send(Message.valueOf(
+            "[REQUEST]" +
+                "testAdd" + "," + keyString+
+                "," + content +
+                "," + timestamp +
+                "," + version +
+                "[/REQUEST]"
+        ));
+
+        client.close();
+        String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
+
+        if ("ERROR_NE".equals(response[1])) {
+            return TestAndSetResponse
+                .newBuilder()
+                .setStatus(response[1])
+                .build();
+        }
+        Value val = Value.newBuilder()
+            .setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
+            .setTimestamp(Long.parseLong(response[3]))
+            .setVersion(Long.parseLong(response[4]))
+            .build();
+
+        return TestAndSetResponse
+            .newBuilder()
+            .setStatus(response[1])
+            .setValue(val)
+            .build();
+    }
+
     public ShowResponse get(Key key) throws IOException {
         this.start();
         String keyString = key.getKey();
@@ -69,7 +110,6 @@ public class RaftClientRunner {
 
 
         ShowResponse showResponse = ShowResponse.newBuilder().setStatus(response[1]).setValue(value).build();
-        System.out.println(showResponse);
         return showResponse;
     }
 

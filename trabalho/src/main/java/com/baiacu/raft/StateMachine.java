@@ -3,8 +3,10 @@ package com.baiacu.raft;
 import com.baiacu.raft.workes.Deleter;
 import com.baiacu.raft.workes.Shower;
 import com.baiacu.raft.workes.Storer;
+import com.baiacu.raft.workes.TestSet;
 import com.proto.baiacu.Key;
 import com.proto.baiacu.Value;
+import java.util.Arrays;
 import org.apache.ratis.proto.RaftProtos;
 import org.apache.ratis.protocol.Message;
 import org.apache.ratis.statemachine.TransactionContext;
@@ -44,9 +46,6 @@ public class StateMachine extends BaseStateMachine
         final String whole = entry.getStateMachineLogEntry().getLogData().toString(Charset.defaultCharset());
         String[] opKeyValue = getValues(whole);
 
-
-        final RaftProtos.RaftPeerRole role = trx.getServerRole();
-
         String response = "";
         if(opKeyValue[0].equals("add")){
             response = (new Storer()).run(key2values, opKeyValue);
@@ -56,6 +55,9 @@ public class StateMachine extends BaseStateMachine
         }
         else if (opKeyValue[0].equals("delete")) {
             response = (new Deleter()).run(key2values, opKeyValue);
+        }
+        else if (opKeyValue[0].equals("testAdd")) {
+            response = (new TestSet()).run(key2values, opKeyValue);
         }
 
         final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf(response));
