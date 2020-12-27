@@ -1,5 +1,6 @@
 package com.baiacu.raft;
 
+import com.baiacu.raft.workes.Deleter;
 import com.baiacu.raft.workes.Shower;
 import com.baiacu.raft.workes.Storer;
 import com.proto.baiacu.Key;
@@ -44,6 +45,8 @@ public class StateMachine extends BaseStateMachine
         String[] opKeyValue = getValues(whole);
 
 
+        final RaftProtos.RaftPeerRole role = trx.getServerRole();
+
         String response = "";
         if(opKeyValue[0].equals("add")){
             response = (new Storer()).run(key2values, opKeyValue);
@@ -52,15 +55,12 @@ public class StateMachine extends BaseStateMachine
 
         }
         else if (opKeyValue[0].equals("delete")) {
-
+            response = (new Deleter()).run(key2values, opKeyValue);
         }
 
         final CompletableFuture<Message> f = CompletableFuture.completedFuture(Message.valueOf(response));
         LOG.debug("RESPOSTA:" + response);
-        final RaftProtos.RaftPeerRole role = trx.getServerRole();
-        LOG.info("{}:{} {} {}={},{},{}", role, getId(), opKeyValue[0], opKeyValue[1], opKeyValue[2],opKeyValue[3]
-                                        , opKeyValue[4]
-        );
+
 
         if (LOG.isTraceEnabled()) {
             LOG.trace("{}: key/values={}", getId(), key2values);

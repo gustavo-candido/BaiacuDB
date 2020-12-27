@@ -55,15 +55,62 @@ public class RaftClientRunner {
         ));
         client.close();
         String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
-        Value value = Value.newBuilder()
-                .setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
-                .setTimestamp(Long.parseLong(response[3]))
-                .setVersion(Long.parseLong(response[4]))
-                .build();
+        Value value;
+        if (!response[1].equals("ERROR")) {
+            value = Value.newBuilder()
+                    .setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
+                    .setTimestamp(Long.parseLong(response[3]))
+                    .setVersion(Long.parseLong(response[4]))
+                    .build();
+        } else {
+            value = Value.newBuilder()
+                    .build();
+        }
+
 
         ShowResponse showResponse = ShowResponse.newBuilder().setStatus(response[1]).setValue(value).build();
         System.out.println(showResponse);
         return showResponse;
+    }
+
+
+    public DestroyResponse delete(Key key) throws IOException{
+        this.start();
+        String keyString = key.getKey();
+
+        RaftClientReply getValue = client.send(Message.valueOf(
+                    "[REQUEST]" +
+                            "delete" + "," + keyString +
+                        "[/REQUEST]"
+        ));
+
+        client.close();
+
+        String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
+
+        System.out.println("resposta no raftcliente" +response);
+
+
+        Value value;
+        if (!response[1].equals("ERROR")) {
+
+           value = Value.newBuilder().setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
+                    .setTimestamp(Long.parseLong(response[3]))
+                    .setVersion(Long.parseLong(response[4]))
+                    .build();
+        } else {
+            value = Value.newBuilder()
+                    .build();
+        }
+
+        DestroyResponse destroyResponse = DestroyResponse.newBuilder()
+                .setStatus(response[1])
+                .setValue(value)
+                .build();
+
+        System.out.println(destroyResponse);
+
+        return destroyResponse;
     }
 
     public void start() throws IOException
@@ -92,23 +139,6 @@ public class RaftClientRunner {
                 .build();
 
         this.client = client;
-
-/*
-        switch (args[0]){
-            case "add":
-                getValue = client.send(Message.valueOf("add:" + args[1] + ":" + args[2]));
-                response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
-                System.out.println("Resposta:" + response);
-                break;
-            case "get":
-                getValue = client.sendReadOnly(Message.valueOf("get:" + args[1]));
-                response = getValue.getMessage().getContent().toString(Charset.defaultCharset());
-                System.out.println("Resposta:" + response);
-                break;
-            default:
-                System.out.println("comando inválido");
-        }
-*/
 
     }
 }

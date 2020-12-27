@@ -47,7 +47,6 @@ public class WorkerStoreHandler implements Callable<StoreResponse> {
 
 
         StoreResponse response = client.add(key,value);
-
         return response;
     }
 }
