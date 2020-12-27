@@ -81,7 +81,7 @@ public class Ruler {
     public DestroyResponse destroyHandler(DestroyRequest request)
         throws ExecutionException, InterruptedException {
         sem.acquire();
-        Future<DestroyResponse> submit = pool.submit(new WorkerDestroy(data, request));
+        Future<DestroyResponse> submit = pool.submit(new WorkerDestroyHandler(request));
         try {
             DestroyResponse destroyResponse = submit.get();
             sem.release();
