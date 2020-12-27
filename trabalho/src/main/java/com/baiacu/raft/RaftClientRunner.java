@@ -1,20 +1,20 @@
 package com.baiacu.raft;
 
 import com.proto.baiacu.*;
-import java.util.Arrays;
+
+import java.util.*;
+
 import org.apache.ratis.client.RaftClient;
 import org.apache.ratis.conf.Parameters;
 import org.apache.ratis.conf.RaftProperties;
 import org.apache.ratis.grpc.GrpcFactory;
 import org.apache.ratis.protocol.*;
 import org.apache.ratis.thirdparty.com.google.protobuf.ByteString;
+import utils.PropertiesReader;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RaftClientRunner {
@@ -203,16 +203,24 @@ public class RaftClientRunner {
     }
 
 
-
     public void start() throws IOException
     {
-        String raftGroupId = "raft_group____um"; // 16 caracteres.
+        // ler as propriedades primeiro
+        PropertiesReader pr = new PropertiesReader();
+        InputStream is = pr.getFileFromResourceAsStream("config.properties");
+        Properties prp = new Properties();
+        prp.load(is);
+        String host = prp.getProperty("host");
+
+        String raftGroupId = prp.getProperty("raftGroupId"); // 16 caracteres.
 
         Map<String,InetSocketAddress> id2addr = new HashMap<>();
-        id2addr.put("p1", new InetSocketAddress("127.0.0.1", 3000));
-        id2addr.put("p2", new InetSocketAddress("127.0.0.1", 3500));
-        id2addr.put("p3", new InetSocketAddress("127.0.0.1", 4000));
-
+        id2addr.put(String.valueOf(prp.getProperty("process1")),
+                new InetSocketAddress(host, Integer.parseInt(prp.getProperty("port1"))));
+        id2addr.put(String.valueOf(prp.getProperty("process2")),
+                new InetSocketAddress(host,Integer.parseInt(prp.getProperty("port2") )));
+        id2addr.put(String.valueOf(prp.getProperty("process3")),
+                new InetSocketAddress(host,Integer.parseInt(prp.getProperty("port3") )));
 
         List<RaftPeer> addresses = id2addr.entrySet()
                 .stream()
