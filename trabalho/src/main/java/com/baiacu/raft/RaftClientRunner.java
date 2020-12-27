@@ -128,9 +128,6 @@ public class RaftClientRunner {
 
         String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
 
-        System.out.println("resposta no raftcliente" +response);
-
-
         Value value;
         if (!response[1].equals("ERROR")) {
 
@@ -152,6 +149,49 @@ public class RaftClientRunner {
 
         return destroyResponse;
     }
+
+
+    public DestroyByVersionResponse deleteByVersion(Key key, long version) throws IOException {
+        String keyString = key.getKey();
+
+        this.start();
+        RaftClientReply getValue = client.send(Message.valueOf(
+                "[REQUEST]" +
+                        "destroyByVersion" + "," + keyString+
+                        "," + version +
+                        "[/REQUEST]"
+        ));
+        client.close();
+
+        String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
+
+        Value value;
+        if (response[1].equals("ERROR_NE")) {
+            value = Value.newBuilder()
+                    .build();
+
+        } else if (response[1].equals("ERROR_WV")){
+            value = Value.newBuilder()
+                    .build();
+        }
+
+        else {
+            value = Value.newBuilder().setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
+                    .setTimestamp(Long.parseLong(response[3]))
+                    .setVersion(Long.parseLong(response[4]))
+                    .build();
+        }
+
+        DestroyByVersionResponse  destroyByVersion = DestroyByVersionResponse.newBuilder()
+                .setStatus(response[1])
+                .setValue(value)
+                .build();
+
+
+        return destroyByVersion;
+    }
+
+
 
     public void start() throws IOException
     {

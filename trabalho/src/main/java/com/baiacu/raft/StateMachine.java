@@ -49,9 +49,8 @@ public class StateMachine extends BaseStateMachine
         String response = "";
         if(opKeyValue[0].equals("add")){
             response = (new Storer()).run(key2values, opKeyValue);
-
-        } else if (opKeyValue[0].equals("replace")){
-
+        } else if (opKeyValue[0].equals("deleteByVersion")){
+            response = (new Deleter()).runByVersion(key2values, opKeyValue);
         }
         else if (opKeyValue[0].equals("delete")) {
             response = (new Deleter()).run(key2values, opKeyValue);

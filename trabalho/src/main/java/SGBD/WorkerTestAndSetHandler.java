@@ -26,7 +26,6 @@ public class WorkerTestAndSetHandler implements Callable<TestAndSetResponse> {
         Value value = request.getKeyValue().getValue();
         long version = request.getVersion();
 
-
         RaftClientRunner client  = new RaftClientRunner();
 
         return client.testAdd(key, value, version);

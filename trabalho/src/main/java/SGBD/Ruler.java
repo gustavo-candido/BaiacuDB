@@ -96,7 +96,7 @@ public class Ruler {
     public DestroyByVersionResponse destroyByVersionHandler(DestroyByVersionRequest request)
         throws InterruptedException {
         sem.acquire();
-        Future<DestroyByVersionResponse> submit = pool.submit(new WorkerDestroyByVersion(data, request));
+        Future<DestroyByVersionResponse> submit = pool.submit(new WorkerDestroyerByVersion(request));
         try {
             DestroyByVersionResponse destroyByVersionResponse = submit.get();
             sem.release();
