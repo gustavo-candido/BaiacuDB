@@ -52,7 +52,7 @@ public class APITests {
         Value value = Value.newBuilder()
                     .setData(ByteString.copyFromUtf8("teste"))
                     .setTimestamp(System.currentTimeMillis() / 1000L)
-                    .setVersion(new Random().nextInt(100) + 1)
+                    .setVersion(1)
                     .build();
 
             KeyValue keyValue = KeyValue.newBuilder()
@@ -224,7 +224,7 @@ public class APITests {
         @DisplayName("faz 10 mil inserções assíncronas e todas deveriam retornar sucesso")
         @Order(1)
         void StreesEnoughStore() throws ExecutionException, InterruptedException {
-            for (int i = 1; i < 10000 ; i++) {
+            for (int i = 1; i < 1000 ; i++) {
                 KeyValue kv  = generateAndStoreKV(UPMOST);
                 FutureStoreVec.add(apiAsync.storeCall(kv.getKey(),kv.getValue()));
             }

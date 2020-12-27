@@ -53,9 +53,6 @@ public class Ruler {
         Future<StoreResponse> submit = pool.submit(new WorkerStoreHandler(request));
         try {
             StoreResponse storeResponse = submit.get();
-
-
-
             sem.release();
             return storeResponse;
         } catch (InterruptedException | ExecutionException e) {

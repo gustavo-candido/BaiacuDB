@@ -38,10 +38,21 @@ public class RaftClientRunner {
                 "," + version +
                 "[/REQUEST]"
         ));
-
         client.close();
+
         String[] response = getValue.getMessage().getContent().toString(Charset.defaultCharset()).split(",");
-        StoreResponse storeResponse = StoreResponse.newBuilder().setStatus(response[1]).build();
+
+        Value valueRes;
+        if(response[1].equals("ERROR")){
+            valueRes = Value.newBuilder().setData(com.google.protobuf.ByteString.copyFromUtf8(response[2]))
+                    .setTimestamp(Long.parseLong(response[3]))
+                    .setVersion(Long.parseLong(response[4]))
+                    .build();
+        } else {
+            valueRes = Value.newBuilder().build();
+        }
+
+        StoreResponse storeResponse = StoreResponse.newBuilder().setStatus(response[1]).setValue(valueRes).build();
         return storeResponse;
     }
 

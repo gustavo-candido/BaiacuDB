@@ -20,22 +20,12 @@ public class WorkerStoreHandler implements Callable<StoreResponse> {
 
 //    retorna a tupla (e,v') onde e=SUCCESS e v'=NULL se k-v foi inserido
 //    retorna a tupla (e,v') onde e=ERROR e v'=(ver,ts,data) se já existia uma entrada no banco de dados com a chave k e vers, ts e data correspondem, respectivamente, à versão, timestamp e dados de tal entrada
-//    Todo: Null não tá dando certo
 
     @Override
     public StoreResponse call() throws Exception {
         Key key = request.getKeyValue().getKey();
 
         RaftClientRunner client  = new RaftClientRunner();
-
-        // já existe key
-   /*     if (hashMap.containsKey(key)) {
-            return  StoreResponse.newBuilder()
-                .setStatus("ERROR")
-                .setValue(hashMap.get(key))
-                .build();
-        }
-*/
 
         Value reqData = request.getKeyValue().getValue();
 

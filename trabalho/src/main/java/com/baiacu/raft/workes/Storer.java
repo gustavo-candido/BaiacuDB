@@ -21,10 +21,12 @@ public class Storer {
 
         String storeResponse = "STORE_RESPONSE";
         if (key2values.containsKey(key)) {
-            // TODO: entregar a stirng contendo os dados.
-
-
-            storeResponse =  storeResponse + "," + "ERROR" ;
+            Value value = key2values.get(key);
+            String content = value.getData().toStringUtf8();
+            String timestamp =  String.valueOf(value.getTimestamp());
+            String version = String.valueOf(value.getVersion());
+            storeResponse =  storeResponse + "," + "ERROR" + ","
+            + content + "," + timestamp + "," + version;
             return storeResponse;
         }
 
