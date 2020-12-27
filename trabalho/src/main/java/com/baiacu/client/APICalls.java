@@ -47,6 +47,7 @@ public class APICalls {
         TestAndSetRequest request = TestAndSetRequest.newBuilder().setKeyValue(keyValue)
                 .setVersion(version)
                 .build();
+
         TestAndSetResponse response = this.client.testAndSet(request);
         return response;
     }
